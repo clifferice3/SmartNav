@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SmartNav</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Project 6</string>
+    <string name="editButton">Edit</string>
+    <string name="editButtonDone">Done</string>
+    <string name="submitButton">Submit</string>
+    <string name="addButton">Add</string>
+    <string name="toDoText">To-Do Item:</string>
+
+    <string-array name="jazz_artist_names">
+        <item>Brad Mehldau</item>
+        <item>Joshua Redman</item>
+        <item>Chick Corea</item>
+        <item>Kurt Rosenwinkel</item>
+        <item>Miles Davis</item>
+        <item>Wayne Shorter</item>
+        <item>Michael Brecker</item>
+        <item>Herbie Hancock</item>
+        <item>Joe Zawinul</item>
+        <item>Brian Blade</item>
+        <item>Jeff Ballard</item>
+        <item>Larry Grenadier</item>
+        <item>Keith Jarrett</item>
+        <item>McCoy Tyner</item>
+        <item>Stephon Harris</item>
+        <item>Mark Turner</item>
+    </string-array>
 
 </resources>

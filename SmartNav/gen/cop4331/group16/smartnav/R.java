@@ -16,6 +16,9 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
+    public static final class array {
+        public static final int jazz_artist_names=0x7f0c0000;
+    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -235,6 +238,24 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int buttonBarStyle=0x7f010017;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int click_remove_id=0x7f01007e;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int collapsed_height=0x7f01006e;
         /**  Specifies a layout for custom navigation. Overrides navigationMode. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -292,11 +313,55 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int dividerVertical=0x7f01001a;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int drag_enabled=0x7f010078;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int drag_handle_id=0x7f01007c;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int drag_scroll_start=0x7f01006f;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>onDown</code></td><td>0</td><td></td></tr>
+<tr><td><code>onMove</code></td><td>1</td><td></td></tr>
+<tr><td><code>onLongPress</code></td><td>2</td><td></td></tr>
+</table>
+         */
+        public static final int drag_start_mode=0x7f01007b;
         /**  ListPopupWindow comaptibility 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int dropDownListViewStyle=0x7f010021;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int drop_animation_duration=0x7f010077;
         /**  The preferred item height for dropdown lists. 
          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
@@ -318,6 +383,31 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int expandActivityOverflowButtonDrawable=0x7f01006b;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fling_handle_id=0x7f01007d;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int float_alpha=0x7f010074;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int float_background_color=0x7f010071;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -457,6 +547,14 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int logo=0x7f01002d;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int max_drag_scroll_speed=0x7f010070;
         /**  The type of navigation to use. 
          <p>Must be one of the following constant values.</p>
 <table>
@@ -550,6 +648,33 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int queryHint=0x7f01005b;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int remove_animation_duration=0x7f010076;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int remove_enabled=0x7f01007a;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>clickRemove</code></td><td>0</td><td></td></tr>
+<tr><td><code>flingRemove</code></td><td>1</td><td></td></tr>
+</table>
+         */
+        public static final int remove_mode=0x7f010072;
         /**  SearchView dropdown background 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -656,6 +781,22 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 </table>
          */
         public static final int showDividers=0x7f010055;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int slide_shuffle_speed=0x7f010075;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int sort_enabled=0x7f010079;
         /**  Default Spinner style. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -749,6 +890,22 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int titleTextStyle=0x7f01002a;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int track_drag_sort=0x7f010073;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int use_default_controller=0x7f01007f;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -858,10 +1015,13 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070003;
+        public static final int abc_search_url_text_holo=0x7f070006;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
+        public static final int black=0x7f070003;
+        public static final int gray=0x7f070005;
+        public static final int white=0x7f070004;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -979,6 +1139,8 @@ containing a value of this type.
          (the screen is in portrait). This may be either a fraction or a dimension.
          */
         public static final int dialog_fixed_width_minor=0x7f080012;
+        public static final int item_height=0x7f080015;
+        public static final int section_div_height=0x7f080016;
     }
     public static final class drawable {
         public static final int abc_ab_bottom_solid_dark_holo=0x7f020000;
@@ -1068,67 +1230,86 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int ic_launcher=0x7f020057;
+        public static final int delete_x=0x7f020057;
+        public static final int drag=0x7f020058;
+        public static final int ic_launcher=0x7f020059;
+        public static final int launcher_icon=0x7f02005a;
     }
     public static final class id {
-        public static final int action_bar=0x7f05001c;
+        public static final int DSLVFragment=0x7f050049;
+        public static final int action_bar=0x7f050021;
         public static final int action_bar_activity_content=0x7f050015;
-        public static final int action_bar_container=0x7f05001b;
-        public static final int action_bar_overlay_layout=0x7f05001f;
-        public static final int action_bar_root=0x7f05001a;
-        public static final int action_bar_subtitle=0x7f050023;
-        public static final int action_bar_title=0x7f050022;
-        public static final int action_context_bar=0x7f05001d;
+        public static final int action_bar_container=0x7f050020;
+        public static final int action_bar_overlay_layout=0x7f050024;
+        public static final int action_bar_root=0x7f05001f;
+        public static final int action_bar_subtitle=0x7f050028;
+        public static final int action_bar_title=0x7f050027;
+        public static final int action_context_bar=0x7f050022;
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
-        public static final int action_mode_close_button=0x7f050024;
-        public static final int activity_chooser_view_content=0x7f050025;
+        public static final int action_mode_close_button=0x7f050029;
+        public static final int activity_chooser_view_content=0x7f05002a;
+        public static final int addButton=0x7f050045;
+        public static final int addItemEditText=0x7f050044;
+        public static final int add_wrapper=0x7f050042;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
-        public static final int checkbox=0x7f05002d;
+        public static final int checkbox=0x7f050032;
+        public static final int clickRemove=0x7f05001a;
+        public static final int click_remove=0x7f05004b;
         public static final int collapseActionView=0x7f05000d;
-        public static final int default_activity_button=0x7f050028;
+        public static final int content_wrapper=0x7f050041;
+        public static final int default_activity_button=0x7f05002d;
         public static final int dialog=0x7f05000e;
         public static final int disableHome=0x7f050008;
+        public static final int drag_handle=0x7f05004a;
         public static final int dropdown=0x7f05000f;
-        public static final int edit_query=0x7f050030;
+        public static final int editButton=0x7f050043;
+        public static final int edit_query=0x7f050035;
         public static final int end=0x7f050013;
-        public static final int expand_activities_button=0x7f050026;
-        public static final int expanded_menu=0x7f05002c;
+        public static final int expand_activities_button=0x7f05002b;
+        public static final int expanded_menu=0x7f050031;
+        public static final int flingRemove=0x7f05001b;
         public static final int home=0x7f050014;
         public static final int homeAsUp=0x7f050005;
-        public static final int icon=0x7f05002a;
+        public static final int icon=0x7f05002f;
         public static final int ifRoom=0x7f05000a;
-        public static final int image=0x7f050027;
+        public static final int image=0x7f05002c;
         public static final int listMode=0x7f050001;
-        public static final int list_item=0x7f050029;
+        public static final int list_item=0x7f05002e;
+        public static final int main_wrapper=0x7f050048;
         public static final int middle=0x7f050012;
         public static final int never=0x7f050009;
         public static final int none=0x7f050010;
         public static final int normal=0x7f050000;
+        public static final int onDown=0x7f05001c;
+        public static final int onLongPress=0x7f05001e;
+        public static final int onMove=0x7f05001d;
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
-        public static final int radio=0x7f05002f;
-        public static final int search_badge=0x7f050032;
-        public static final int search_bar=0x7f050031;
-        public static final int search_button=0x7f050033;
-        public static final int search_close_btn=0x7f050038;
-        public static final int search_edit_frame=0x7f050034;
-        public static final int search_go_btn=0x7f05003a;
-        public static final int search_mag_icon=0x7f050035;
-        public static final int search_plate=0x7f050036;
-        public static final int search_src_text=0x7f050037;
-        public static final int search_voice_btn=0x7f05003b;
-        public static final int shortcut=0x7f05002e;
+        public static final int radio=0x7f050034;
+        public static final int search_badge=0x7f050037;
+        public static final int search_bar=0x7f050036;
+        public static final int search_button=0x7f050038;
+        public static final int search_close_btn=0x7f05003d;
+        public static final int search_edit_frame=0x7f050039;
+        public static final int search_go_btn=0x7f05003f;
+        public static final int search_mag_icon=0x7f05003a;
+        public static final int search_plate=0x7f05003b;
+        public static final int search_src_text=0x7f05003c;
+        public static final int search_voice_btn=0x7f050040;
+        public static final int shortcut=0x7f050033;
         public static final int showCustom=0x7f050007;
         public static final int showHome=0x7f050004;
         public static final int showTitle=0x7f050006;
-        public static final int split_action_bar=0x7f05001e;
-        public static final int submit_area=0x7f050039;
+        public static final int split_action_bar=0x7f050023;
+        public static final int submitButton=0x7f050046;
+        public static final int submit_area=0x7f05003e;
         public static final int tabMode=0x7f050002;
-        public static final int title=0x7f05002b;
-        public static final int top_action_bar=0x7f050020;
-        public static final int up=0x7f050021;
+        public static final int text=0x7f050047;
+        public static final int title=0x7f050030;
+        public static final int top_action_bar=0x7f050025;
+        public static final int up=0x7f050026;
         public static final int useLogo=0x7f050003;
         public static final int withText=0x7f05000c;
     }
@@ -1185,7 +1366,11 @@ containing a value of this type.
         public static final int activity_input=0x7f030018;
         public static final int activity_map=0x7f030019;
         public static final int activity_splash=0x7f03001a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
+        public static final int dslv_fragment_layout=0x7f03001b;
+        public static final int header_footer=0x7f03001c;
+        public static final int input_activity_layout=0x7f03001d;
+        public static final int list_item_click_remove=0x7f03001e;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001f;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1228,8 +1413,12 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
+        public static final int addButton=0x7f0a0011;
         public static final int app_name=0x7f0a000d;
-        public static final int hello_world=0x7f0a000e;
+        public static final int editButton=0x7f0a000e;
+        public static final int editButtonDone=0x7f0a000f;
+        public static final int submitButton=0x7f0a0010;
+        public static final int toDoText=0x7f0a0012;
     }
     public static final class style {
         /** 
@@ -1241,17 +1430,6 @@ containing a value of this type.
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
-
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    
- API 11 theme customizations can go here. 
-
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f0b008b;
         /**  Application theme. 
@@ -2175,6 +2353,319 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           @attr name cop4331.group16.smartnav:textAllCaps
         */
         public static final int CompatTextView_textAllCaps = 0;
+        /** Attributes that can be used with a DragSortListView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #DragSortListView_click_remove_id cop4331.group16.smartnav:click_remove_id}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_collapsed_height cop4331.group16.smartnav:collapsed_height}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_drag_enabled cop4331.group16.smartnav:drag_enabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_drag_handle_id cop4331.group16.smartnav:drag_handle_id}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_drag_scroll_start cop4331.group16.smartnav:drag_scroll_start}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_drag_start_mode cop4331.group16.smartnav:drag_start_mode}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_drop_animation_duration cop4331.group16.smartnav:drop_animation_duration}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_fling_handle_id cop4331.group16.smartnav:fling_handle_id}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_float_alpha cop4331.group16.smartnav:float_alpha}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_float_background_color cop4331.group16.smartnav:float_background_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_max_drag_scroll_speed cop4331.group16.smartnav:max_drag_scroll_speed}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_remove_animation_duration cop4331.group16.smartnav:remove_animation_duration}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_remove_enabled cop4331.group16.smartnav:remove_enabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_remove_mode cop4331.group16.smartnav:remove_mode}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_slide_shuffle_speed cop4331.group16.smartnav:slide_shuffle_speed}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_sort_enabled cop4331.group16.smartnav:sort_enabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_track_drag_sort cop4331.group16.smartnav:track_drag_sort}</code></td><td></td></tr>
+           <tr><td><code>{@link #DragSortListView_use_default_controller cop4331.group16.smartnav:use_default_controller}</code></td><td></td></tr>
+           </table>
+           @see #DragSortListView_click_remove_id
+           @see #DragSortListView_collapsed_height
+           @see #DragSortListView_drag_enabled
+           @see #DragSortListView_drag_handle_id
+           @see #DragSortListView_drag_scroll_start
+           @see #DragSortListView_drag_start_mode
+           @see #DragSortListView_drop_animation_duration
+           @see #DragSortListView_fling_handle_id
+           @see #DragSortListView_float_alpha
+           @see #DragSortListView_float_background_color
+           @see #DragSortListView_max_drag_scroll_speed
+           @see #DragSortListView_remove_animation_duration
+           @see #DragSortListView_remove_enabled
+           @see #DragSortListView_remove_mode
+           @see #DragSortListView_slide_shuffle_speed
+           @see #DragSortListView_sort_enabled
+           @see #DragSortListView_track_drag_sort
+           @see #DragSortListView_use_default_controller
+         */
+        public static final int[] DragSortListView = {
+            0x7f01006e, 0x7f01006f, 0x7f010070, 0x7f010071,
+            0x7f010072, 0x7f010073, 0x7f010074, 0x7f010075,
+            0x7f010076, 0x7f010077, 0x7f010078, 0x7f010079,
+            0x7f01007a, 0x7f01007b, 0x7f01007c, 0x7f01007d,
+            0x7f01007e, 0x7f01007f
+        };
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#click_remove_id}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:click_remove_id
+        */
+        public static final int DragSortListView_click_remove_id = 16;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#collapsed_height}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:collapsed_height
+        */
+        public static final int DragSortListView_collapsed_height = 0;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#drag_enabled}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:drag_enabled
+        */
+        public static final int DragSortListView_drag_enabled = 10;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#drag_handle_id}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:drag_handle_id
+        */
+        public static final int DragSortListView_drag_handle_id = 14;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#drag_scroll_start}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:drag_scroll_start
+        */
+        public static final int DragSortListView_drag_scroll_start = 1;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#drag_start_mode}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>onDown</code></td><td>0</td><td></td></tr>
+<tr><td><code>onMove</code></td><td>1</td><td></td></tr>
+<tr><td><code>onLongPress</code></td><td>2</td><td></td></tr>
+</table>
+          @attr name cop4331.group16.smartnav:drag_start_mode
+        */
+        public static final int DragSortListView_drag_start_mode = 13;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#drop_animation_duration}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:drop_animation_duration
+        */
+        public static final int DragSortListView_drop_animation_duration = 9;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#fling_handle_id}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:fling_handle_id
+        */
+        public static final int DragSortListView_fling_handle_id = 15;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#float_alpha}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:float_alpha
+        */
+        public static final int DragSortListView_float_alpha = 6;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#float_background_color}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:float_background_color
+        */
+        public static final int DragSortListView_float_background_color = 3;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#max_drag_scroll_speed}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:max_drag_scroll_speed
+        */
+        public static final int DragSortListView_max_drag_scroll_speed = 2;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#remove_animation_duration}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:remove_animation_duration
+        */
+        public static final int DragSortListView_remove_animation_duration = 8;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#remove_enabled}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:remove_enabled
+        */
+        public static final int DragSortListView_remove_enabled = 12;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#remove_mode}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>clickRemove</code></td><td>0</td><td></td></tr>
+<tr><td><code>flingRemove</code></td><td>1</td><td></td></tr>
+</table>
+          @attr name cop4331.group16.smartnav:remove_mode
+        */
+        public static final int DragSortListView_remove_mode = 4;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#slide_shuffle_speed}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:slide_shuffle_speed
+        */
+        public static final int DragSortListView_slide_shuffle_speed = 7;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#sort_enabled}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:sort_enabled
+        */
+        public static final int DragSortListView_sort_enabled = 11;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#track_drag_sort}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:track_drag_sort
+        */
+        public static final int DragSortListView_track_drag_sort = 5;
+        /**
+          <p>This symbol is the offset where the {@link cop4331.group16.smartnav.R.attr#use_default_controller}
+          attribute's value can be found in the {@link #DragSortListView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name cop4331.group16.smartnav:use_default_controller
+        */
+        public static final int DragSortListView_use_default_controller = 17;
         /** Attributes that can be used with a LinearLayoutICS.
            <p>Includes the following attributes:</p>
            <table>

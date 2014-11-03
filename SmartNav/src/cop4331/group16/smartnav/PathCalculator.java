@@ -20,7 +20,7 @@ public class PathCalculator
 	@SuppressWarnings("unchecked")
 	private void findLocations(ArrayList<String> queryList, APIWrapper api)
 	{
-		locations = new ArrayList[queryList.size() + 2];
+		locations = new ArrayList[queryList.size() + 1];
 		
 		Address currentLocation = api.getCurrentLoc();
 		
@@ -31,9 +31,6 @@ public class PathCalculator
 		{
 			locations[i + 1] = api.queryPlace(queryList.get(i), RADIUS);
 		}
-		
-		locations[locations.length - 1] = new ArrayList<Address>();
-		locations[locations.length - 1].add(currentLocation);
 	}
 	
 	private ArrayList<Address> chooseOptimal(APIWrapper api)
@@ -61,9 +58,19 @@ public class PathCalculator
 			}
 		}
 		
+		int loc = -1;
+		double best = Double.POSITIVE_INFINITY;
+		for(int i = 0; i < dist[dist.length - 1].length; i++)
+		{
+			if(dist[dist.length - 1][i] < best)
+			{
+				best = dist[dist.length - 1][i];
+				loc = i;
+			}
+		}
+		
 		ArrayList<Address> path = new ArrayList<Address>();
 		
-		int loc = 0;
 		for(int i = locations.length - 1; i >= 0; i--)
 		{
 			path.add(locations[i].get(loc));

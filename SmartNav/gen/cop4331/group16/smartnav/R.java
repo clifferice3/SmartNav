@@ -183,32 +183,35 @@ containing a value of this type.
         public static final int launcher_icon=0x7f020003;
     }
     public static final class id {
-        public static final int DSLVFragment=0x7f04000e;
-        public static final int addButton=0x7f04000a;
-        public static final int addItemEditText=0x7f040009;
-        public static final int add_wrapper=0x7f040007;
+        public static final int DSLVFragment=0x7f040010;
+        public static final int addButton=0x7f04000c;
+        public static final int addItemEditText=0x7f04000b;
+        public static final int add_wrapper=0x7f040009;
         public static final int clickRemove=0x7f040000;
-        public static final int click_remove=0x7f040010;
-        public static final int content_wrapper=0x7f040006;
-        public static final int direction_list=0x7f040005;
-        public static final int drag_handle=0x7f04000f;
-        public static final int editButton=0x7f040008;
+        public static final int click_remove=0x7f040012;
+        public static final int content_wrapper=0x7f040008;
+        public static final int drag_handle=0x7f040011;
+        public static final int editButton=0x7f04000a;
         public static final int flingRemove=0x7f040001;
-        public static final int main_wrapper=0x7f04000d;
+        public static final int fragment1=0x7f040005;
+        public static final int fragment2=0x7f040006;
+        public static final int listView1=0x7f040007;
+        public static final int main_wrapper=0x7f04000f;
         public static final int onDown=0x7f040002;
         public static final int onLongPress=0x7f040004;
         public static final int onMove=0x7f040003;
-        public static final int submitButton=0x7f04000b;
-        public static final int text=0x7f04000c;
+        public static final int submitButton=0x7f04000d;
+        public static final int text=0x7f04000e;
     }
     public static final class layout {
         public static final int activity_input=0x7f030000;
         public static final int activity_map=0x7f030001;
         public static final int activity_splash=0x7f030002;
-        public static final int dslv_fragment_layout=0x7f030003;
-        public static final int header_footer=0x7f030004;
-        public static final int input_activity_layout=0x7f030005;
-        public static final int list_item_click_remove=0x7f030006;
+        public static final int direction_list_layout=0x7f030003;
+        public static final int dslv_fragment_layout=0x7f030004;
+        public static final int header_footer=0x7f030005;
+        public static final int input_activity_layout=0x7f030006;
+        public static final int list_item_click_remove=0x7f030007;
     }
     public static final class string {
         public static final int addButton=0x7f070004;

@@ -10,6 +10,7 @@
         android:layout_height="@dimen/item_height"
         android:layout_weight="0"
         android:background="@drawable/drag"
+        android:contentDescription="Move"
         android:visibility="gone" />
 
     <TextView
@@ -27,6 +28,7 @@
         android:layout_height="@dimen/item_height"
         android:layout_weight="0"
         android:background="@drawable/delete_x"
+        android:contentDescription="Delete"
         android:visibility="gone" />
 
 </LinearLayout>

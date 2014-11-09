@@ -77,7 +77,20 @@
         dslv:slide_shuffle_speed="0.3"
         dslv:track_drag_sort="false"
         dslv:use_default_controller="false" />
+    
+    <TextView android:id="@android:id/empty"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:gravity="center"
+	    android:textColor="#ff0000"
+	    android:text="@string/empty_message" />
 
+     <Button
+        android:id="@+id/clearAllButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clearAllButton" />
+     
     <Button
         android:id="@+id/submitButton"
         android:layout_width="match_parent"

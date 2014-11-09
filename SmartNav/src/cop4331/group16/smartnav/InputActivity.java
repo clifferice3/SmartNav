@@ -34,6 +34,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
   private Button editButton;
   private Button addItemButton;
   private Button submitButton;
+  private Button clearAllButton;
 
   private int removeMode = DragSortController.CLICK_REMOVE;
   private int dragStartMode = DragSortController.ON_DOWN;
@@ -46,6 +47,8 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     super.onCreate(bundle);
 
     setContentView(getLayout());
+    getActionBar().setTitle("Input Activity"); 
+    
     dragSortListView = (DragSortListView) getListView();
     dragSortListViewController = buildController(dragSortListView);
     dragSortListView.setFloatViewManager(dragSortListViewController);
@@ -62,7 +65,8 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     addItemButton = (Button) findViewById(R.id.addButton);
     submitButton = (Button) findViewById(R.id.submitButton);
     addItemEditText = (EditText) findViewById(R.id.addItemEditText);
-
+    clearAllButton = (Button) findViewById(R.id.clearAllButton);
+    
     editButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
         editModeEnabled = !editModeEnabled;
@@ -97,6 +101,16 @@ public class InputActivity extends ListActivity implements OnScrollListener {
         return true;
       }
     });
+    
+    clearAllButton.setOnClickListener(new OnClickListener() {
+        public void onClick(View view) {
+          String message = String.format("Clicked ClearAll");
+          Toast.makeText(InputActivity.this, message, Toast.LENGTH_SHORT).show();          
+          adapter.clear();
+          adapter.notifyDataSetChanged();
+          
+        }
+      });
 
     ListView listView = getListView();
     listView.setOnItemClickListener(new OnItemClickListener() {

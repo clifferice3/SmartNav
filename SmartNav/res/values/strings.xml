@@ -4,9 +4,13 @@
     <string name="app_name">Project 6</string>
     <string name="editButton">Edit</string>
     <string name="editButtonDone">Done</string>
+     <string name="clearAllButton">Clear All</string>
     <string name="submitButton">Submit</string>
     <string name="addButton">Add</string>
     <string name="toDoText">To-Do Item:</string>
+    <string name="empty_message">You have no items!</string>
+    <string name="back_string">Back</string>
+    <string name="next_string">Next</string>
 
     <string-array name="jazz_artist_names">
         <item>Brad Mehldau</item>
@@ -26,5 +30,6 @@
         <item>Stephon Harris</item>
         <item>Mark Turner</item>
     </string-array>
+    
 
 </resources>

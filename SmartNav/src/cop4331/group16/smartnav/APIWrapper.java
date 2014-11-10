@@ -21,14 +21,8 @@ public class APIWrapper
 	private final String TEXT_SEARCH = "/textsearch";
 	private final String JSON = "/json";
 	
-    GoogleMap map;
-    private ArrayList<Marker> locs;
-
-    public APIWrapper()
-    {
-        //map = MapView.getMap();
-        locs = new ArrayList<Marker>();
-    }
+    GoogleMap map; // = MapView.getMap();
+    private ArrayList<Marker> locs = new ArrayList<Marker>();
     
 	public void drawMap(ArrayList<Address> addresses)
 	{

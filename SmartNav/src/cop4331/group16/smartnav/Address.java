@@ -10,4 +10,14 @@ public class Address
 		latitude = lat;
 		longitude = lon;
 	}
+	
+	public double getLatitude()
+	{
+		return latitude;
+	}
+	
+	public double getLongitude()
+	{
+		return longitude;
+	}
 }

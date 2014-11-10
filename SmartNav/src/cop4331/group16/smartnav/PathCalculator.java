@@ -4,7 +4,7 @@ import java.util.*;
 
 public class PathCalculator
 {
-	private final int RADIUS = 1000000;
+	private final int RADIUS = 50000;
 	
 	private ArrayList<Address>[] locations;
 	
@@ -29,7 +29,7 @@ public class PathCalculator
 		
 		for(int i = 0; i < queryList.size(); i++)
 		{
-			locations[i + 1] = api.queryPlace(queryList.get(i), RADIUS);
+			locations[i + 1] = api.queryPlace(queryList.get(i), currentLocation, RADIUS);
 		}
 	}
 	

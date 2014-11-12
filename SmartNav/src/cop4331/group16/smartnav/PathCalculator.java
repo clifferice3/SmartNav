@@ -4,11 +4,12 @@ import java.util.*;
 
 public class PathCalculator
 {
-	private final int RADIUS = 50000;
+	private final int RADIUS = 500;
+	private final int NUM_PLACES = 10;
 	
 	private ArrayList<Address>[] locations;
 	
-	public ArrayList<Address> calculate(ArrayList<String> queryList)
+	public ArrayList<Address> calculate(ArrayList<String> queryList) throws Exception
 	{
 		APIWrapper api = new APIWrapper();
 		
@@ -18,7 +19,7 @@ public class PathCalculator
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void findLocations(ArrayList<String> queryList, APIWrapper api)
+	private void findLocations(ArrayList<String> queryList, APIWrapper api) throws Exception
 	{
 		locations = new ArrayList[queryList.size() + 1];
 		
@@ -29,25 +30,32 @@ public class PathCalculator
 		
 		for(int i = 0; i < queryList.size(); i++)
 		{
-			locations[i + 1] = api.queryPlace(queryList.get(i), currentLocation, RADIUS);
+			locations[i + 1] = api.queryPlace(queryList.get(i), currentLocation, RADIUS, NUM_PLACES);
 		}
 	}
 	
-	private ArrayList<Address> chooseOptimal(APIWrapper api)
+	private ArrayList<Address> chooseOptimal(APIWrapper api) throws Exception
 	{
-		double[][] dist = new double[locations.length][];
+		long[][] dist = new long[locations.length][];
 		int[][] prev = new int[locations.length][];
+		
+		dist[0] = new long[locations[0].size()];
+		prev[0] = new int[locations[0].size()];
 		
 		for(int i = 1; i < locations.length; i++)
 		{
-			dist[i] = new double[locations[i].size()];
+			dist[i] = new long[locations[i].size()];
 			prev[i] = new int[locations[i].size()];
+			
+			Arrays.fill(dist[i], Long.MAX_VALUE);
+			
+			long[][] matrix = api.getTime(locations[i - 1], locations[i]);
 			
 			for(int j = 0; j < locations[i].size(); j++)
 			{
 				for(int k = 0; k < locations[i - 1].size(); k++)
 				{
-					double currentDist = dist[i - 1][k] + api.getTime(locations[i - 1].get(k), locations[i].get(j));
+					long currentDist = dist[i - 1][k] + matrix[k][j];
 
 					if(currentDist < dist[i][j])
 					{
@@ -59,7 +67,7 @@ public class PathCalculator
 		}
 		
 		int loc = -1;
-		double best = Double.POSITIVE_INFINITY;
+		long best = Long.MAX_VALUE;
 		for(int i = 0; i < dist[dist.length - 1].length; i++)
 		{
 			if(dist[dist.length - 1][i] < best)

@@ -1,22 +1,19 @@
 package cop4331.group16.smartnav;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
-public class MapFragment extends Fragment {
-	
-	private FragmentActivity listener;
+import com.google.android.gms.maps.SupportMapFragment;
+
+public class Map extends SupportMapFragment {
+
 
 	@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.listener = (FragmentActivity) activity;
     }
 
     @Override
@@ -26,8 +23,7 @@ public class MapFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
-        View v =  inf.inflate(R.layout.map_fragment_layout, parent, false);
-        return v;
+        return super.onCreateView(inf, parent, savedInstanceState);
     }
 
     @Override

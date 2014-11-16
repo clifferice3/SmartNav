@@ -22,6 +22,15 @@ public class MapActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         input = getIntent().getStringArrayListExtra("input_list");
+        PathCalculator pathFinder = new PathCalculator();
+        ArrayList<Address> optimalAddresses = new ArrayList<Address>();
+        try {
+			optimalAddresses = pathFinder.calculate(input);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         
         // TODO: Get directions from Map APIs.
         

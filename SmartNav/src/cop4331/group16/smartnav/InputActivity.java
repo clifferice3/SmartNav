@@ -1,6 +1,7 @@
 package cop4331.group16.smartnav;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,8 +19,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -81,8 +84,10 @@ public class InputActivity extends ListActivity implements OnScrollListener {
 
     submitButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
-        String message = String.format("Clicked submit");
-        Toast.makeText(InputActivity.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(InputActivity.this, "Proceeding to MapActivity.", Toast.LENGTH_SHORT).show();
+        Intent nextAct = new Intent(InputActivity.this, MapActivity.class);
+        nextAct.putStringArrayListExtra("input_list", list);
+        startActivity(nextAct);
       }
     });
 

@@ -4,14 +4,14 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    <fragment 
-        android:id="@+id/fragment1"
+
+    <fragment
+        android:id="@+id/map_fragment"
         android:name="cop4331.group16.smartnav.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.6"
-        class="com.google.android.gms.maps.MapFragment"
-         />
+        class="com.google.android.gms.maps.MapFragment" />
 
 	<LinearLayout
 	    android:layout_width="match_parent"
@@ -42,13 +42,14 @@
 	        android:textColorHint="@color/gray" />
 
 	</LinearLayout>
+
     <fragment
-        android:id="@+id/fragment2"
+        android:id="@+id/list_fragment"
         android:name="cop4331.group16.smartnav.DirectionFragment"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.4"
+        android:orientation="horizontal"
         tools:layout="@layout/direction_list_layout" />
 
 </LinearLayout>

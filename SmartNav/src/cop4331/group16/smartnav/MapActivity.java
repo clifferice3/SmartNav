@@ -2,16 +2,19 @@ package cop4331.group16.smartnav;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class MapActivity extends Activity {
+public class MapActivity extends FragmentActivity {
 	
 	private ArrayList<String> input;
+	public static FragmentManager fragmentManager;
 	int tripSegment;
 	ArrayList<String>[] directions;
 	ListView lv;
@@ -22,30 +25,24 @@ public class MapActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         input = getIntent().getStringArrayListExtra("input_list");
+        fragmentManager = getFragmentManager();
+        FragmentTransaction ftrans = fragmentManager.beginTransaction();
+        
+        
+        
+        
         PathCalculator pathFinder = new PathCalculator();
         ArrayList<Address> optimalAddresses = new ArrayList<Address>();
         try {
 			optimalAddresses = pathFinder.calculate(input);
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        APIWrapper api = new APIWrapper();
-        RouteSection[] routes = new RouteSection[0];
-		try {
-			routes = api.getDirections(optimalAddresses);
-			directions = new ArrayList[routes.length];
-			for(int i = 0; i<routes.length; i++)
-			{
-				directions[i] = new ArrayList<String>();
-				for(RouteStep rs : routes[i].getSteps())
-				{
-					directions[i].add(rs.getHtmlInstructions());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-                
+        
+        
+        // TODO: Get directions from Map APIs.
+        
         lv = (ListView) findViewById(R.id.list_fragment);
         m_adapter = new ArrayAdapter<String>(this, R.layout.activity_map, m_listItems);
         lv.setAdapter(m_adapter);
@@ -84,5 +81,5 @@ public class MapActivity extends Activity {
     	ArrayList<String> toDisplay = directions[tripSegment];
         m_listItems = toDisplay;
         m_adapter.notifyDataSetChanged();
-    }
-}
+    } 
+} 

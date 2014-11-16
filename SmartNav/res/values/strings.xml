@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Project 6</string>
+    <string name="app_name">SmartNav</string>
     <string name="editButton">Edit</string>
     <string name="editButtonDone">Done</string>
      <string name="clearAllButton">Clear All</string>

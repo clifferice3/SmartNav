@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class DirectionFragment extends Fragment {
+public class MapFragment extends Fragment {
 	
 	private FragmentActivity listener;
 
@@ -26,8 +26,7 @@ public class DirectionFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
-        View v =  inf.inflate(R.layout.direction_list_layout, parent, false);
-        ListView lv = (ListView) v.findViewById(R.id.directions);
+        View v =  inf.inflate(R.layout.map_fragment_layout, parent, false);
         return v;
     }
 
@@ -35,5 +34,4 @@ public class DirectionFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-	
 }

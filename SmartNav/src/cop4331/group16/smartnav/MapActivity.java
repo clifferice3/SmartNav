@@ -27,13 +27,25 @@ public class MapActivity extends Activity {
         try {
 			optimalAddresses = pathFinder.calculate(input);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        
-        // TODO: Get directions from Map APIs.
-        
+        APIWrapper api = new APIWrapper();
+        RouteSection[] routes = new RouteSection[0];
+		try {
+			routes = api.getDirections(optimalAddresses);
+			directions = new ArrayList[routes.length];
+			for(int i = 0; i<routes.length; i++)
+			{
+				directions[i] = new ArrayList<String>();
+				for(RouteStep rs : routes[i].getSteps())
+				{
+					directions[i].add(rs.getHtmlInstructions());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+                
         lv = (ListView) findViewById(R.id.list_fragment);
         m_adapter = new ArrayAdapter<String>(this, R.layout.activity_map, m_listItems);
         lv.setAdapter(m_adapter);

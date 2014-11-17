@@ -179,9 +179,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
   }
 
   public void setListAdapter() {
-    list =
-        new ArrayList<String>(Arrays.asList(getResources()
-            .getStringArray(R.array.jazz_artist_names)));
+    list = new ArrayList<String>();
     adapter = new ArrayAdapter<String>(this, getItemLayout(), R.id.text, list);
     setListAdapter(adapter);
   }

@@ -6,13 +6,14 @@ import java.net.*;
 
 import org.json.*;
 
-import com.google.android.maps.MapView;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import 	android.location.Location;
+import android.location.Location;
 
 public class APIWrapper
 {
@@ -25,11 +26,18 @@ public class APIWrapper
 	private final String JSON = "/json";
 	private final int MAX_PATH_SIZE = 10;
 	
-    GoogleMap map; // = MapView.getMap();
-    private ArrayList<Marker> locs = new ArrayList<Marker>();
-    
-	public void drawMap(ArrayList<Address> addresses)
-	{
+    GoogleMap map = new MapView(null).getMap();
+    ArrayList<Marker> locs = new ArrayList<Marker>();
+    Polyline lines = new Polyline(null);
+
+    /**
+     * Function: drawMap
+     * takes in a list of locations and an encrypted polyLine
+     * adds markers to the map at each location in list
+     * decrypts and draws polyLine on the map
+     */
+    public void drawMap(ArrayList<Address> addresses, String mapLinesEnc)
+    {
         //clear the map of all markers
         for (Marker m : locs)
         {
@@ -48,8 +56,51 @@ public class APIWrapper
             tempMarker.setVisible(true);
             locs.add(tempMarker);
         }
-	}
+
+        ArrayList<LatLng> points = new ArrayList<LatLng>();
+
+        // decrypt the poLyline
+        int index = 0, len = mapLinesEnc.length();
+        int lat = 0, lng = 0;
+
+        while (index < len)
+        {
+            int b, shift = 0, result = 0;
+            do {
+                b = mapLinesEnc.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+
+            do {
+                b = mapLinesEnc.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng((int) (((double) lat / 1E5) * 1E6), (int) (((double) lng / 1E5) * 1E6));
+            points.add(p);
+        }
+
+        // add polyLine to graph
+        lines.setPoints(points);
+        lines.setVisible(true);
+
+    }
 	
+    /**
+     * Function: getCurrentLoc
+     * returns an Address corresponding to the current location of the user
+     */
 	public Address getCurrentLoc()
 	{
 		Location curLoc = map.getMyLocation();

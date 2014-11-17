@@ -13,7 +13,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.location.Location;
+import 	android.location.Location;
 
 public class APIWrapper
 {
@@ -26,9 +26,9 @@ public class APIWrapper
 	private final String JSON = "/json";
 	private final int MAX_PATH_SIZE = 10;
 	
-    static GoogleMap map = new MapView(null).getMap();
-    static ArrayList<Marker> locs = new ArrayList<Marker>();
-    static Polyline lines = new Polyline(null);
+    GoogleMap map = new MapView(null).getMap();
+    ArrayList<Marker> locs = new ArrayList<Marker>();
+    Polyline lines = new Polyline(null);
 
     /**
      * Function: drawMap
@@ -36,7 +36,7 @@ public class APIWrapper
      * adds markers to the map at each location in list
      * decrypts and draws polyLine on the map
      */
-    public void drawMap(ArrayList<Address> addresses, String mapLinesEnc)
+    public void drawMap(ArrayList<Address> addresses, ArrayList<String> mapLinesEnc)
     {
         //clear the map of all markers
         for (Marker m : locs)
@@ -59,36 +59,41 @@ public class APIWrapper
 
         ArrayList<LatLng> points = new ArrayList<LatLng>();
 
-        // decrypt the poLyline
-        int index = 0, len = mapLinesEnc.length();
-        int lat = 0, lng = 0;
+	       
 
-        while (index < len)
-        {
-            int b, shift = 0, result = 0;
-            do {
-                b = mapLinesEnc.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-
-            shift = 0;
-            result = 0;
-
-            do {
-                b = mapLinesEnc.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            LatLng p = new LatLng((int) (((double) lat / 1E5) * 1E6), (int) (((double) lng / 1E5) * 1E6));
-            points.add(p);
+        for (String s: mapLinesEnc) {
+        	
+        	 // decrypt the poLyline
+	        int index = 0, len = s.length();
+	        int lat = 0, lng = 0;
+	        
+	        while (index < len)
+	        {
+	            int b, shift = 0, result = 0;
+	            do {
+	                b = s.charAt(index++) - 63;
+	                result |= (b & 0x1f) << shift;
+	                shift += 5;
+	            } while (b >= 0x20);
+	
+	            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+	            lat += dlat;
+	
+	            shift = 0;
+	            result = 0;
+	
+	            do {
+	                b = s.charAt(index++) - 63;
+	                result |= (b & 0x1f) << shift;
+	                shift += 5;
+	            } while (b >= 0x20);
+	
+	            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+	            lng += dlng;
+	
+	            LatLng p = new LatLng((int) (((double) lat / 1E5) * 1E6), (int) (((double) lng / 1E5) * 1E6));
+	            points.add(p);
+	        }
         }
 
         // add polyLine to graph

@@ -1,8 +1,12 @@
 package cop4331.group16.smartnav;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,7 +37,6 @@ public class InputActivity extends ListActivity implements OnScrollListener {
   private DragSortListView dragSortListView;
   private DragSortController dragSortListViewController;
 
-  private EditText addItemEditText;
   private Button editButton;
   private Button addItemButton;
   private Button submitButton;
@@ -50,8 +53,8 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     super.onCreate(bundle);
 
     setContentView(getLayout());
-    getActionBar().setTitle("Input Activity"); 
-    
+    getActionBar().setTitle("Input Activity");
+
     dragSortListView = (DragSortListView) getListView();
     dragSortListViewController = buildController(dragSortListView);
     dragSortListView.setFloatViewManager(dragSortListViewController);
@@ -67,11 +70,13 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     editButton = (Button) findViewById(R.id.editButton);
     addItemButton = (Button) findViewById(R.id.addButton);
     submitButton = (Button) findViewById(R.id.submitButton);
-    addItemEditText = (EditText) findViewById(R.id.addItemEditText);
     clearAllButton = (Button) findViewById(R.id.clearAllButton);
-    
+
     editButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
+        if (adapter.getCount() == 0)
+          return;
+        
         editModeEnabled = !editModeEnabled;
         if (editModeEnabled) {
           editButton.setText(R.string.editButtonDone);
@@ -93,29 +98,31 @@ public class InputActivity extends ListActivity implements OnScrollListener {
 
     addItemButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
-        addItem();
+        final EditText addItemEditText = new EditText(InputActivity.this);
+        addItemEditText.setSingleLine(true);
+        
+        new AlertDialog.Builder(InputActivity.this).setTitle("Add New To-Do Item")
+            .setMessage("Enter in the location/task you need to complete:")
+            .setView(addItemEditText)
+            .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int whichButton) {
+                addItem(addItemEditText.getText().toString());
+              }
+            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int whichButton) {}
+            }).show();
       }
     });
 
-    addItemEditText.setOnEditorActionListener(new OnEditorActionListener() {
-      public boolean onEditorAction(TextView textview, int eventId, KeyEvent keyEvent) {
-        if (eventId == EditorInfo.IME_ACTION_GO
-            || (keyEvent != null && keyEvent.getAction() == 0 && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-          addItem();
-        }
-        return true;
+    clearAllButton.setOnClickListener(new OnClickListener() {
+      public void onClick(View view) {
+        String message = String.format("Clicked ClearAll");
+        Toast.makeText(InputActivity.this, message, Toast.LENGTH_SHORT).show();
+        adapter.clear();
+        adapter.notifyDataSetChanged();
+
       }
     });
-    
-    clearAllButton.setOnClickListener(new OnClickListener() {
-        public void onClick(View view) {
-          String message = String.format("Clicked ClearAll");
-          Toast.makeText(InputActivity.this, message, Toast.LENGTH_SHORT).show();          
-          adapter.clear();
-          adapter.notifyDataSetChanged();
-          
-        }
-      });
 
     ListView listView = getListView();
     listView.setOnItemClickListener(new OnItemClickListener() {
@@ -143,11 +150,13 @@ public class InputActivity extends ListActivity implements OnScrollListener {
       itemView.findViewById(R.id.click_remove).setVisibility(
           editModeEnabled ? View.VISIBLE : View.GONE);
     }
-  }
+    
+    findViewById(R.id.editButton).setVisibility(listView.getChildCount() > 0 ? View.VISIBLE : View.INVISIBLE);
+    findViewById(R.id.clearAllButton).setVisibility(editModeEnabled ? View.VISIBLE : View.GONE);
+    findViewById(R.id.submitButton).setVisibility(editModeEnabled ? View.GONE : View.VISIBLE);
+}
 
-  private void addItem() {
-    String newItem = addItemEditText.getText().toString();
-    addItemEditText.setText("");
+  private void addItem(String newItem) {
     if (newItem.length() > 0) {
       adapter.add(newItem);
       updateVisibility();

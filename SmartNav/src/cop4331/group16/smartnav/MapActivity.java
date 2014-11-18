@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MapActivity extends FragmentActivity {
-	
+	DirectionFragment dFrag;
 	private ArrayList<String> input;
 	int tripSegment;
 	ArrayList<String>[] directions;
@@ -28,8 +28,8 @@ public class MapActivity extends FragmentActivity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         input = getIntent().getStringArrayListExtra("input_list");
-        map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
-        map.setMyLocationEnabled(true);
+//        map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+//        map.setMyLocationEnabled(true);
         
 //        PathCalculator pathFinder = new PathCalculator();
 //        ArrayList<Address> optimalAddresses = new ArrayList<Address>();
@@ -55,16 +55,15 @@ public class MapActivity extends FragmentActivity {
 //        } catch (Exception e) {
 //        	e.printStackTrace();
 //        }
-        directions = new ArrayList[2];
-        directions[0] = new ArrayList<String>(); directions[1] = new ArrayList<String>();
-        for(int i = 0; i<3; i++)
-        {
-        	directions[0].add(""+(char)('A'+i));
-        	directions[1].add(""+(char)('1'+i));
-        }
-        lv = (ListView) findViewById(R.id.directions);
-        m_adapter = new ArrayAdapter<String>(this, R.layout.activity_map, m_listItems);
-        lv.setAdapter(m_adapter);
+	    directions = new ArrayList[2];
+	    directions[0] = new ArrayList<String>(); directions[1] = new ArrayList<String>();
+	    for(int i = 0; i<3; i++)
+	    {
+	    	directions[0].add(""+(char)('A'+i));
+	      	directions[1].add(""+(char)('1'+i));
+	    }
+        dFrag = (DirectionFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
+        dFrag.updateView(directions[0]);
         tripSegment = 0;
         Button backButton = (Button) findViewById(R.id.button1);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -74,8 +73,7 @@ public class MapActivity extends FragmentActivity {
 				if(tripSegment > 0)
 				{
 					tripSegment--;
-					Toast.makeText(MapActivity.this, directions[tripSegment].get(0), Toast.LENGTH_SHORT).show();
-					updateView();
+					dFrag.updateView(directions[tripSegment]);
 				}
 				// TODO Auto-generated method stub
 				System.out.println("Pressed back");
@@ -89,8 +87,7 @@ public class MapActivity extends FragmentActivity {
 				if(tripSegment < directions.length - 1)
 				{
 					tripSegment++;
-					Toast.makeText(MapActivity.this, directions[tripSegment].get(0), Toast.LENGTH_SHORT).show();
-					updateView();
+					dFrag.updateView(directions[tripSegment]);
 				}
 				// TODO Auto-generated method stub
 				System.out.println("Presed next");
@@ -98,9 +95,4 @@ public class MapActivity extends FragmentActivity {
 		});
         
     }
-    protected void updateView() {
-    	ArrayList<String> toDisplay = directions[tripSegment];
-        m_listItems = toDisplay;
-        m_adapter.notifyDataSetChanged();
-    } 
 }

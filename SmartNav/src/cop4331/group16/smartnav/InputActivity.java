@@ -66,7 +66,8 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     setListAdapter();
 
     getListView().setOnScrollListener(this);
-
+    
+    list = new ArrayList<String>();
     editButton = (Button) findViewById(R.id.editButton);
     addItemButton = (Button) findViewById(R.id.addButton);
     submitButton = (Button) findViewById(R.id.submitButton);
@@ -119,6 +120,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
         String message = String.format("Clicked ClearAll");
         Toast.makeText(InputActivity.this, message, Toast.LENGTH_SHORT).show();
         adapter.clear();
+        list.clear();
         adapter.notifyDataSetChanged();
 
       }
@@ -159,6 +161,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
   private void addItem(String newItem) {
     if (newItem.length() > 0) {
       adapter.add(newItem);
+      list.add(newItem);
       updateVisibility();
       dragSortListView.smoothScrollToPosition(adapter.getCount() - 1);
     }
@@ -199,6 +202,8 @@ public class InputActivity extends ListActivity implements OnScrollListener {
         String item = adapter.getItem(from);
         adapter.remove(item);
         adapter.insert(item, to);
+        list.remove(item);
+        list.add(to, item);
         updateVisibility();
       }
     }
@@ -208,6 +213,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
       new com.mobeta.android.dslv.DragSortListView.RemoveListener() {
         public void remove(int item) {
           adapter.remove(adapter.getItem(item));
+          list.remove(list.get(item));
           updateVisibility();
         }
       };

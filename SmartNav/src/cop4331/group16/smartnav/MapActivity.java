@@ -28,6 +28,7 @@ public class MapActivity extends FragmentActivity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         input = getIntent().getStringArrayListExtra("input_list");
+        
 //        map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
 //        map.setMyLocationEnabled(true);
         

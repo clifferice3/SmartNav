@@ -2,6 +2,9 @@ package cop4331.group16.smartnav;
 
 import java.util.ArrayList;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -18,12 +21,15 @@ public class MapActivity extends FragmentActivity {
 	ListView lv;
 	ArrayAdapter<String> m_adapter;
 	ArrayList<String> m_listItems = new ArrayList<String>();
+	GoogleMap map;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         input = getIntent().getStringArrayListExtra("input_list");
-        
+        map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+        map.setMyLocationEnabled(true);
         
 //        PathCalculator pathFinder = new PathCalculator();
 //        ArrayList<Address> optimalAddresses = new ArrayList<Address>();

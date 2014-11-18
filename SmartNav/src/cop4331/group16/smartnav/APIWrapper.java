@@ -26,9 +26,9 @@ public class APIWrapper
 	private final String JSON = "/json";
 	private final int MAX_PATH_SIZE = 10;
 	
-    GoogleMap map = new MapView(null).getMap();
-    ArrayList<Marker> locs = new ArrayList<Marker>();
-    Polyline lines = new Polyline(null);
+    static GoogleMap map = new MapView(null).getMap();
+    static ArrayList<Marker> locs = new ArrayList<Marker>();
+    static Polyline lines = new Polyline(null);
 
     /**
      * Function: drawMap
@@ -99,7 +99,6 @@ public class APIWrapper
         // add polyLine to graph
         lines.setPoints(points);
         lines.setVisible(true);
-
     }
 	
     /**

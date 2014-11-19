@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -58,12 +59,12 @@ public class MapActivity extends FragmentActivity {
         
         Toast.makeText(this, "Location: " + start.getName() + " " + start.getLatitude() + start.getLongitude(), Toast.LENGTH_LONG).show();
         
-//        try {
-//			optimalAddresses = pathFinder.calculate(input, start);
-//			Toast.makeText(this, "Path calculation successful: " + optimalAddresses.get(0).getName(), Toast.LENGTH_SHORT).show();
-//		} catch (Exception e) {
-//			Toast.makeText(this, "Path calculation failed", Toast.LENGTH_SHORT).show();
-//		}
+        try {
+			optimalAddresses = pathFinder.calculate(input, start);
+			Toast.makeText(this, "Path calculation successful: " + optimalAddresses.get(0).getName(), Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {
+			Toast.makeText(this, "Path calculation failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+		}
 //        APIWrapper api = new APIWrapper();
 //        path = new RouteSection[optimalAddresses.size()];
 //        try {

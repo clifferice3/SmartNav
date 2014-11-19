@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -21,9 +22,11 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -38,11 +41,14 @@ public class APIWrapper
 	private final String TEXT_SEARCH = "/textsearch";
 	private final String JSON = "/json";
 	private final int MAX_PATH_SIZE = 10;
-	Location cur;
-
-    static ArrayList<Marker> locs = new ArrayList<Marker>();
+	private final int PADDING = 10;
+	
+	Location cur = null;
+	
+    static GoogleMap map;
+    static ArrayList<Marker> locs;
     static Polyline lines;
-
+    
     /**
      * Function: drawMap
      * takes in a list of locations and an encrypted polyLine
@@ -114,37 +120,71 @@ public class APIWrapper
         lines.setVisible(true);
     }
 	
+    public void moveMap(Address southwest, Address northeast, GoogleMap map)
+    {
+    	LatLng sw = new LatLng(southwest.getLatitude(), southwest.getLongitude());
+    	LatLng ne = new LatLng(northeast.getLatitude(), northeast.getLongitude());
+    	
+    	LatLngBounds bounds = new LatLngBounds(sw, ne);
+    	
+    	CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, PADDING);
+    	
+    	map.moveCamera(update);
+    }
+    
+    /**
+     * Function: getCurrentLoc
+     * returns an Address corresponding to the current location of the user
+     * @throws InterruptedException 
+     */
+	public Address getCurrentLoc() throws InterruptedException
+	{
+	        LocActivity tmp = new LocActivity();
+	        tmp.startActivity(null);
+	        while (cur == null) Thread.sleep(1000);
+	        return new Address("Current Location", cur.getLatitude(), cur.getLongitude());
+	}
 	
 	/**
 	 * Returns an array of RouteSections to go through all the places in path
 	 * The RouteSections contain steps which each have html instructions and a polyline
 	 * path must not contain more than 18 elements
 	 */
-	public RouteSection[] getDirections(ArrayList<Address> path) throws Exception
+//	public RouteSection[] getDirections(ArrayList<Address> path) throws Exception
+//	{
+//		RouteSection[] sections = new RouteSection[path.size() - 1];
+//		Address southwest = new Address("Southwest", 0, 0);
+//		Address northeast = new Address("Northeast", 0, 0);
+//		for(int i = 0; i < path.size(); i += MAX_PATH_SIZE - 1)
+//		{
+//			ArrayList<Address> currentQuery = new ArrayList<Address>();
+//			for(int j = 0; j < MAX_PATH_SIZE && i + j < path.size(); j++)
+//			{
+//				currentQuery.add(path.get(i + j));
+//			}
+//			
+//			Directions currentDirections = getDirections(currentQuery, currentQuery.size());
+//			
+//			for(int k = 0; k < currentDirections.getSections().length; k++)
+//			{
+//				sections[i + k] = currentDirections.getSections()[k];
+//			}
+//			
+//			
+//		}
+//		
+//		return sections;
+//	}
+	
+	/**
+	 * Returns information about the directions to go through all the places in the path.
+	 * There must not be more than 9 places in path.
+	 */
+	private Directions getDirections(ArrayList<Address> path) throws Exception
 	{
 		RouteSection[] sections = new RouteSection[path.size() - 1];
-		for(int i = 0; i < path.size(); i += MAX_PATH_SIZE - 1)
-		{
-			ArrayList<Address> currentQuery = new ArrayList<Address>();
-			for(int j = 0; j < MAX_PATH_SIZE && i + j < path.size(); j++)
-			{
-				currentQuery.add(path.get(i + j));
-			}
-			
-			RouteSection[] currentSections = getDirections(currentQuery, currentQuery.size());
-			
-			for(int k = 0; k < currentSections.length; k++)
-			{
-				sections[i + k] = currentSections[k];
-			}
-		}
-		
-		return sections;
-	}
-	
-	private RouteSection[] getDirections(ArrayList<Address> path, int length) throws Exception
-	{
-		RouteSection[] sections = new RouteSection[length - 1];
+		Address southwest;
+		Address northeast;
 		
 		try
 		{
@@ -153,7 +193,7 @@ public class APIWrapper
 			urlString.append("origin=" + path.get(0).getLatitude() + "," + path.get(0).getLongitude());
 			urlString.append("&destination=" + path.get(path.size() - 1).getLatitude() + "," + path.get(path.size() - 1).getLongitude());
 
-			if(length > 2)
+			if(path.size() > 2)
 			{
 				urlString.append("&waypoints=");
 				
@@ -176,7 +216,7 @@ public class APIWrapper
 			
 			if(!json.getString("status").equals("OK"))
 			{
-				throw new Exception();
+				throw new Exception("1");
 			}
 			
 			JSONArray legs = json.getJSONArray("routes").getJSONObject(0).getJSONArray("legs");
@@ -194,13 +234,19 @@ public class APIWrapper
 				
 				sections[i] = new RouteSection(path.get(i), path.get(i + 1), routeSteps);
 			}
+			
+			JSONObject bounds = json.getJSONObject("bounds");
+			JSONObject sw = bounds.getJSONObject("southwest");
+			JSONObject ne = bounds.getJSONObject("northeast");
+			southwest = new Address("Southwest", sw.getDouble("lat"), sw.getDouble("lng"));
+			northeast = new Address("Northeast", ne.getDouble("lat"), ne.getDouble("lng"));
 		}
 		catch(Exception e)
 		{
-			throw new Exception();
+			throw new Exception("2");
 		}
 		
-		return sections;
+		return new Directions(sections, southwest, northeast);
 	}
 	
 	public ArrayList<Address> queryPlace(String query, Address currentLoc, int radius, int numPlaces) throws Exception
@@ -222,7 +268,7 @@ public class APIWrapper
 			
 			if(!json.getString("status").equals("OK"))
 			{
-				throw new Exception();
+				throw new Exception("3");
 			}
 			
 			JSONArray results = json.getJSONArray("results");
@@ -235,9 +281,7 @@ public class APIWrapper
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
-			
-			throw new Exception();
+			throw new Exception("4: " + e.getMessage());
 		}
 		
 		return places;
@@ -290,7 +334,7 @@ public class APIWrapper
 				}
 				else
 				{
-					throw new Exception();
+					throw new Exception("5");
 				}
 			}
 			
@@ -312,7 +356,7 @@ public class APIWrapper
 		}
 		catch(Exception e)
 		{
-			throw new Exception();
+			throw new Exception("6");
 		}
 		
 		return matrix;
@@ -320,23 +364,54 @@ public class APIWrapper
 	
 	private String queryWebService(String urlString) throws Exception
 	{
-		URL url = new URL(urlString);
-		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		WebServiceTask task = new WebServiceTask();
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String response = task.execute(urlString).get();
 		
-		StringBuilder response = new StringBuilder();
-		String line = br.readLine();
-		while(line != null)
+		if(task.e != null)
 		{
-			response.append(line);
-			line = br.readLine();
+			throw task.e;
 		}
 		
-		br.close();
-		
-		return response.toString();
+		return response;
 	}
+	
+	private class WebServiceTask extends AsyncTask<String, Void, String>
+	{
+		private Exception e;
+		
+		protected String doInBackground(String... urlString)
+		{
+			String ret = "";
+			
+			try
+			{
+				URL url = new URL(urlString[0]);
+				HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+				
+				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				
+				StringBuilder response = new StringBuilder();
+				String line = br.readLine();
+				while(line != null)
+				{
+					response.append(line);
+					line = br.readLine();
+				}
+				
+				br.close();
+				
+				ret = response.toString();
+			}
+			catch(Exception ex)
+			{
+				e = ex;
+			}
+			
+			return ret;
+		}
+	}
+	
 	 /**
      * Class: LocActivity
      * tries to get the current location until successful

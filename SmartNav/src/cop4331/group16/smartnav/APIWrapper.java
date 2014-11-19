@@ -25,6 +25,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -46,8 +47,7 @@ public class APIWrapper
 	
 	Location cur = null;
 	
-    static GoogleMap map;
-    static ArrayList<Marker> locs;
+    static ArrayList<Marker> locs = new ArrayList<Marker>();
     static Polyline lines;
     
     /**
@@ -70,7 +70,7 @@ public class APIWrapper
         //add markers at each location on the map
         for (Address a : addresses)
         {
-            MarkerOptions tempOpt = new MarkerOptions();
+            MarkerOptions tempOpt = new MarkerOptions().title(a.getName()).icon(BitmapDescriptorFactory.defaultMarker());
             tempOpt.position(new LatLng(a.getLatitude(), a.getLongitude()));
             Marker tempMarker = map.addMarker(tempOpt);
             tempMarker.setVisible(true);

@@ -9,36 +9,26 @@ public class PathCalculator
 	
 	private ArrayList<Address>[] locations;
 	
-	public ArrayList<Address> calculate(ArrayList<String> queryList) throws Exception
+	public ArrayList<Address> calculate(ArrayList<String> queryList, Address startLocation) throws Exception
 	{
 		APIWrapper api = new APIWrapper();
 		
-		findLocations(queryList, api);
+		findLocations(queryList, startLocation, api);
 		
 		return chooseOptimal(api);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void findLocations(ArrayList<String> queryList, APIWrapper api) throws Exception
+	private void findLocations(ArrayList<String> queryList, Address startLocation, APIWrapper api) throws Exception
 	{
 		locations = new ArrayList[queryList.size() + 1];
 		
-		Address currentLocation;
-		try
-		{
-			currentLocation = api.getCurrentLoc();
-		}
-		catch(Exception e)
-		{
-			throw new Exception("Exception in getCurrentLoc");
-		}
-		
 		locations[0] = new ArrayList<Address>();
-		locations[0].add(currentLocation);
+		locations[0].add(startLocation);
 		
 		for(int i = 0; i < queryList.size(); i++)
 		{
-			locations[i + 1] = api.queryPlace(queryList.get(i), currentLocation, RADIUS, NUM_PLACES);
+			locations[i + 1] = api.queryPlace(queryList.get(i), startLocation, RADIUS, NUM_PLACES);
 		}
 	}
 	

@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -20,8 +21,8 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -37,11 +38,10 @@ public class APIWrapper
 	private final String TEXT_SEARCH = "/textsearch";
 	private final String JSON = "/json";
 	private final int MAX_PATH_SIZE = 10;
-	Location cur = null;
-	
-    static GoogleMap map = new MapView(null).getMap();
+	Location cur;
+
     static ArrayList<Marker> locs = new ArrayList<Marker>();
-    static Polyline lines = new Polyline(null);
+    static Polyline lines;
 
     /**
      * Function: drawMap
@@ -49,7 +49,7 @@ public class APIWrapper
      * adds markers to the map at each location in list
      * decrypts and draws polyLine on the map
      */
-    public void drawMap(ArrayList<Address> addresses, ArrayList<String> mapLinesEnc)
+    public void drawMap(ArrayList<Address> addresses, ArrayList<String> mapLinesEnc, GoogleMap map)
     {
         //clear the map of all markers
         for (Marker m : locs)
@@ -114,18 +114,6 @@ public class APIWrapper
         lines.setVisible(true);
     }
 	
-    /**
-     * Function: getCurrentLoc
-     * returns an Address corresponding to the current location of the user
-     * @throws InterruptedException 
-     */
-	public Address getCurrentLoc() throws InterruptedException
-	{
-	        LocActivity tmp = new LocActivity();
-	        tmp.startActivity(null);
-	        while (cur == null) Thread.sleep(1000);
-	        return new Address("Current Location", cur.getLatitude(), cur.getLongitude());
-	}
 	
 	/**
 	 * Returns an array of RouteSections to go through all the places in path

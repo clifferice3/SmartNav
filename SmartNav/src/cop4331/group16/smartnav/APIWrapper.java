@@ -11,10 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class APIWrapper
 {
@@ -40,7 +41,7 @@ public class APIWrapper
 	private final String DISTANCE_MATRIX = "/distancematrix";
 	private final String TEXT_SEARCH = "/textsearch";
 	private final String JSON = "/json";
-	private final int MAX_PATH_SIZE = 10;
+	//private final int MAX_PATH_SIZE = 10;
 	private final int PADDING = 10;
 	
 	Location cur = null;
@@ -76,9 +77,7 @@ public class APIWrapper
             locs.add(tempMarker);
         }
 
-        ArrayList<LatLng> points = new ArrayList<LatLng>();
-
-	       
+	    PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
 
         for (String s: mapLinesEnc) {
         	
@@ -111,12 +110,12 @@ public class APIWrapper
 	            lng += dlng;
 	
 	            LatLng p = new LatLng((int) (((double) lat / 1E5) * 1E6), (int) (((double) lng / 1E5) * 1E6));
-	            points.add(p);
+	            lineOptions.add(p);
 	        }
         }
 
         // add polyLine to graph
-        lines.setPoints(points);
+        lines = map.addPolyline(lineOptions);
         lines.setVisible(true);
     }
 	

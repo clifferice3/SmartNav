@@ -67,12 +67,14 @@
         dslv:track_drag_sort="false"
         dslv:use_default_controller="false" />
     
-    <TextView android:id="@android:id/empty"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:gravity="center"
-	    android:textColor="#ff0000"
-	    android:text="@string/empty_message" />
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/empty_message"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
      <Button
         android:id="@+id/clearAllButton"

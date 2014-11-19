@@ -53,7 +53,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     super.onCreate(bundle);
 
     setContentView(getLayout());
-    getActionBar().setTitle("Input Activity");
+    getActionBar().setTitle("SmartNav - Optimal To-Do Navigator");
 
     dragSortListView = (DragSortListView) getListView();
     dragSortListViewController = buildController(dragSortListView);

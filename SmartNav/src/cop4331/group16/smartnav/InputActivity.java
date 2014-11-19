@@ -91,8 +91,12 @@ public class InputActivity extends ListActivity implements OnScrollListener {
 
     submitButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
+        ArrayList<String> allToDoItems = new ArrayList<String>();
+        for (int i = 0; i < adapter.getCount(); i++)
+          allToDoItems.add(adapter.getItem(i));
+        
         Intent nextAct = new Intent(InputActivity.this, MapActivity.class);
-        nextAct.putStringArrayListExtra("input_list", list);
+        nextAct.putStringArrayListExtra("input_list", allToDoItems);
         startActivity(nextAct);
       }
     });

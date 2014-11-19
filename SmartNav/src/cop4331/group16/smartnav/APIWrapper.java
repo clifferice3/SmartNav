@@ -1,19 +1,31 @@
 package cop4331.group16.smartnav;
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import com.google.android.gms.maps.MapView;
+import android.app.Activity;
+import android.location.Location;
+import android.os.Bundle;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import 	android.location.Location;
+import com.google.android.gms.maps.model.Polyline;
 
 public class APIWrapper
 {
@@ -25,6 +37,7 @@ public class APIWrapper
 	private final String TEXT_SEARCH = "/textsearch";
 	private final String JSON = "/json";
 	private final int MAX_PATH_SIZE = 10;
+	Location cur = null;
 	
     static GoogleMap map = new MapView(null).getMap();
     static ArrayList<Marker> locs = new ArrayList<Marker>();
@@ -104,11 +117,14 @@ public class APIWrapper
     /**
      * Function: getCurrentLoc
      * returns an Address corresponding to the current location of the user
+     * @throws InterruptedException 
      */
-	public Address getCurrentLoc()
+	public Address getCurrentLoc() throws InterruptedException
 	{
-		Location curLoc = map.getMyLocation();
-        return new Address("Current Location", curLoc.getLatitude(), curLoc.getLongitude());
+	        LocActivity tmp = new LocActivity();
+	        tmp.startActivity(null);
+	        while (cur == null) Thread.sleep(1000);
+	        return new Address("Current Location", cur.getLatitude(), cur.getLongitude());
 	}
 	
 	/**
@@ -333,4 +349,55 @@ public class APIWrapper
 		
 		return response.toString();
 	}
+	 /**
+     * Class: LocActivity
+     * tries to get the current location until successful
+     * sets cur to the currentLocation on success
+     */
+    class LocActivity extends Activity implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
+        // . . . . . . . . more stuff here 
+        LocationRequest locationRequest;
+        LocationClient locationClient;
+
+     
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            // . . . . other initialization code
+            locationClient = new LocationClient(this, this, this);
+    locationRequest = new LocationRequest();
+    // Use high accuracy
+    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            // Set the update interval to 5 seconds
+    locationRequest.setInterval(5);
+            // Set the fastest update interval to 1 second
+    locationRequest.setFastestInterval(1);
+        }
+        // . . . . . . . . other methods 
+        @Override
+        public void onConnected(Bundle bundle) {
+            Location location = locationClient.getLastLocation();
+            if (location == null)
+                locationClient.requestLocationUpdates(locationRequest, this);
+            else
+            cur = location;       
+        }
+        // . . . . . . . . other methods
+        @Override
+        public void onLocationChanged(Location location) {
+            locationClient.removeLocationUpdates(this);
+            // Use the location here!!!
+        }
+@Override
+public void onConnectionFailed(ConnectionResult arg0) {
+// TODO Auto-generated method stub
+
+
+}
+@Override
+public void onDisconnected() {
+// TODO Auto-generated method stub
+
+
+}   
+    }
 }

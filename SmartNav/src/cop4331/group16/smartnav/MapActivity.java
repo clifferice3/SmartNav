@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 
@@ -84,9 +85,17 @@ public class MapActivity extends FragmentActivity {
         			encoded.add(rs.getPolyline());
         		}
         	}
-        	api.moveMap(dir.getSouthwest(), dir.getNortheast(), map);
+        	
+        	map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+        	    @Override
+        	    public void onMapLoaded() {
+        	    	api.moveMap(dir.getSouthwest(), dir.getNortheast(), map);
+        	    	api.drawMap(optimalAddresses, encoded, map);
+        	    }
+        	});
+        	
         	navigate.setText("From " + optimalAddresses.get(0).getName() + " to " + optimalAddresses.get(1).getName());
-			api.drawMap(optimalAddresses, encoded, map);
+			
         } catch (Exception e) {
         	e.printStackTrace();
         }

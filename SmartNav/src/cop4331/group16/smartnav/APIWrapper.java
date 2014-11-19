@@ -43,7 +43,7 @@ public class APIWrapper
 	private final String TEXT_SEARCH = "/textsearch";
 	private final String JSON = "/json";
 	//private final int MAX_PATH_SIZE = 10;
-	private final int PADDING = 10;
+	private final int PADDING = 50;
 	
 	Location cur = null;
 	
@@ -109,7 +109,7 @@ public class APIWrapper
 	            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
 	            lng += dlng;
 	
-	            LatLng p = new LatLng((int) (((double) lat / 1E5) * 1E6), (int) (((double) lng / 1E5) * 1E6));
+	            LatLng p = new LatLng(lat / 1e5, lng / 1e5);
 	            lineOptions.add(p);
 	        }
         }

@@ -5,7 +5,7 @@ import java.util.*;
 public class PathCalculator
 {
 	private final int RADIUS = 500;
-	private final int NUM_PLACES = 3;
+	private final int NUM_PLACES = 10;
 	
 	private ArrayList<Address>[] locations;
 	

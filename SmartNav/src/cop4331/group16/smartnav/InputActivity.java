@@ -94,10 +94,16 @@ public class InputActivity extends ListActivity implements OnScrollListener {
         ArrayList<String> allToDoItems = new ArrayList<String>();
         for (int i = 0; i < adapter.getCount(); i++)
           allToDoItems.add(adapter.getItem(i));
-        
-        Intent nextAct = new Intent(InputActivity.this, MapActivity.class);
-        nextAct.putStringArrayListExtra("input_list", allToDoItems);
-        startActivity(nextAct);
+        if(allToDoItems.size() > 9)
+        {
+        	Toast.makeText(InputActivity.this, "Too many queries", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+        	Intent nextAct = new Intent(InputActivity.this, MapActivity.class);
+        	nextAct.putStringArrayListExtra("input_list", allToDoItems);
+            startActivity(nextAct);
+        }
       }
     });
 

@@ -58,6 +58,11 @@ public class APIWrapper
      */
     public void drawMap(ArrayList<Address> addresses, ArrayList<String> mapLinesEnc, GoogleMap map)
     {
+    	if(lines != null)
+    	{
+    		lines.remove();
+    	}
+    	
         //clear the map of all markers
         for (Marker m : locs)
         {

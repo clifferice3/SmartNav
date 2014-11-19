@@ -48,7 +48,7 @@ public class MapActivity extends FragmentActivity {
         if (tracker.canGetLocation() == false) {
             tracker.showSettingsAlert();
         } else {
-            start = new Address("Current Location", tracker.getLatitude(),tracker.getLongitude());
+            start = new Address("Start Location", tracker.getLatitude(),tracker.getLongitude());
         }
         
         Button backButton = (Button) findViewById(R.id.button1);
@@ -94,7 +94,7 @@ public class MapActivity extends FragmentActivity {
         	    }
         	});
         	
-        	navigate.setText("From " + optimalAddresses.get(0).getName() + " to " + optimalAddresses.get(1).getName());
+        	navigate.setText("Step 1: " + optimalAddresses.get(0).getName() + " to " + optimalAddresses.get(1).getName());
 			
         } catch (Exception e) {
         	e.printStackTrace();
@@ -118,7 +118,7 @@ public class MapActivity extends FragmentActivity {
 				{
 					tripSegment--;
 					dFrag.updateView(directions[tripSegment]);
-					navigate.setText("From " + optimalAddresses.get(tripSegment).getName() + " to " + optimalAddresses.get(tripSegment + 1).getName());
+					navigate.setText("Step " + (tripSegment+1) + ": " + optimalAddresses.get(tripSegment).getName() + " to " + optimalAddresses.get(tripSegment + 1).getName());
 				}
 				
 			}
@@ -132,7 +132,7 @@ public class MapActivity extends FragmentActivity {
 				{
 					tripSegment++;
 					dFrag.updateView(directions[tripSegment]);
-					navigate.setText("From " + optimalAddresses.get(tripSegment).getName() + " to " + optimalAddresses.get(tripSegment + 1).getName());
+					navigate.setText("Step " + (tripSegment+1) + ": " + optimalAddresses.get(tripSegment).getName() + " to " + optimalAddresses.get(tripSegment + 1).getName());
 				}
 				
 			}

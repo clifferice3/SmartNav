@@ -12,7 +12,9 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -20,9 +22,11 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -37,18 +41,13 @@ public class APIWrapper
 	private final String TEXT_SEARCH = "/textsearch";
 	private final String JSON = "/json";
 	private final int MAX_PATH_SIZE = 10;
+	private final int PADDING = 10;
+	
 	Location cur = null;
 	
     static GoogleMap map;
     static ArrayList<Marker> locs;
     static Polyline lines;
-
-    public void initMap()
-    {
-    	map = new MapView(null).getMap();
-    	locs = new ArrayList<Marker>();
-    	lines = new Polyline(null);
-    }
     
     /**
      * Function: drawMap
@@ -56,7 +55,7 @@ public class APIWrapper
      * adds markers to the map at each location in list
      * decrypts and draws polyLine on the map
      */
-    public void drawMap(ArrayList<Address> addresses, ArrayList<String> mapLinesEnc)
+    public void drawMap(ArrayList<Address> addresses, ArrayList<String> mapLinesEnc, GoogleMap map)
     {
         //clear the map of all markers
         for (Marker m : locs)
@@ -121,9 +120,16 @@ public class APIWrapper
         lines.setVisible(true);
     }
 	
-    public void moveMap(Address southWest, Address northEast)
+    public void moveMap(Address southwest, Address northeast, GoogleMap map)
     {
+    	LatLng sw = new LatLng(southwest.getLatitude(), southwest.getLongitude());
+    	LatLng ne = new LatLng(northeast.getLatitude(), northeast.getLongitude());
     	
+    	LatLngBounds bounds = new LatLngBounds(sw, ne);
+    	
+    	CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, PADDING);
+    	
+    	map.moveCamera(update);
     }
     
     /**
@@ -172,7 +178,7 @@ public class APIWrapper
 	
 	/**
 	 * Returns information about the directions to go through all the places in the path.
-	 * There cannot be more than 9 places.
+	 * There must not be more than 9 places in path.
 	 */
 	private Directions getDirections(ArrayList<Address> path) throws Exception
 	{
@@ -210,7 +216,7 @@ public class APIWrapper
 			
 			if(!json.getString("status").equals("OK"))
 			{
-				throw new Exception();
+				throw new Exception("1");
 			}
 			
 			JSONArray legs = json.getJSONArray("routes").getJSONObject(0).getJSONArray("legs");
@@ -237,7 +243,7 @@ public class APIWrapper
 		}
 		catch(Exception e)
 		{
-			throw new Exception();
+			throw new Exception("2");
 		}
 		
 		return new Directions(sections, southwest, northeast);
@@ -262,7 +268,7 @@ public class APIWrapper
 			
 			if(!json.getString("status").equals("OK"))
 			{
-				throw new Exception();
+				throw new Exception("3");
 			}
 			
 			JSONArray results = json.getJSONArray("results");
@@ -275,9 +281,7 @@ public class APIWrapper
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
-			
-			throw new Exception();
+			throw new Exception("4: " + e.getMessage());
 		}
 		
 		return places;
@@ -330,7 +334,7 @@ public class APIWrapper
 				}
 				else
 				{
-					throw new Exception();
+					throw new Exception("5");
 				}
 			}
 			
@@ -352,7 +356,7 @@ public class APIWrapper
 		}
 		catch(Exception e)
 		{
-			throw new Exception();
+			throw new Exception("6");
 		}
 		
 		return matrix;
@@ -360,23 +364,54 @@ public class APIWrapper
 	
 	private String queryWebService(String urlString) throws Exception
 	{
-		URL url = new URL(urlString);
-		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		WebServiceTask task = new WebServiceTask();
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String response = task.execute(urlString).get();
 		
-		StringBuilder response = new StringBuilder();
-		String line = br.readLine();
-		while(line != null)
+		if(task.e != null)
 		{
-			response.append(line);
-			line = br.readLine();
+			throw task.e;
 		}
 		
-		br.close();
-		
-		return response.toString();
+		return response;
 	}
+	
+	private class WebServiceTask extends AsyncTask<String, Void, String>
+	{
+		private Exception e;
+		
+		protected String doInBackground(String... urlString)
+		{
+			String ret = "";
+			
+			try
+			{
+				URL url = new URL(urlString[0]);
+				HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+				
+				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				
+				StringBuilder response = new StringBuilder();
+				String line = br.readLine();
+				while(line != null)
+				{
+					response.append(line);
+					line = br.readLine();
+				}
+				
+				br.close();
+				
+				ret = response.toString();
+			}
+			catch(Exception ex)
+			{
+				e = ex;
+			}
+			
+			return ret;
+		}
+	}
+	
 	 /**
      * Class: LocActivity
      * tries to get the current location until successful

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Html;
-import android.text.SpannedString;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +27,7 @@ public class MapActivity extends FragmentActivity {
 	ArrayList<String> m_listItems = new ArrayList<String>();
 	PathCalculator pathFinder;
 	APIWrapper api;
+	static Address start;
 	
 	GoogleMap map;
 	
@@ -41,7 +41,12 @@ public class MapActivity extends FragmentActivity {
         PathCalculator pathFinder = new PathCalculator();
         optimalAddresses = new ArrayList<Address>();
         
-        
+        GPSTracker tracker = new GPSTracker(this);
+        if (tracker.canGetLocation() == false) {
+            tracker.showSettingsAlert();
+        } else {
+            start = new Address("Current Location", tracker.getLatitude(),tracker.getLongitude());
+        }
         
         Button backButton = (Button) findViewById(R.id.button1);
         Button nextButton = (Button) findViewById(R.id.button2);
@@ -50,13 +55,15 @@ public class MapActivity extends FragmentActivity {
         map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
         map.setMyLocationEnabled(true);
         
-        APIWrapper api = new APIWrapper();
+        api = new APIWrapper();
+        
+        Toast.makeText(this, "Location: " + start.getName() + " " + start.getLatitude() + start.getLongitude(), Toast.LENGTH_LONG).show();
         
         try {
-			optimalAddresses = pathFinder.calculate(input, api.getCurrentLoc());
+			optimalAddresses = pathFinder.calculate(input, start);
 			Toast.makeText(this, "Path calculation successful: " + optimalAddresses.get(0).getName(), Toast.LENGTH_SHORT).show();
 		} catch (Exception e) {
-			Toast.makeText(this, "Path calculation failed", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Path calculation failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 		}
 //        APIWrapper api = new APIWrapper();
 //        path = new RouteSection[optimalAddresses.size()];

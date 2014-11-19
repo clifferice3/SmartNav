@@ -22,7 +22,8 @@
         <meta-data android:name="com.google.android.sms.version" android:value="@integer/google_play_services_version"/>
         <activity
             android:name="cop4331.group16.smartnav.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.Holo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

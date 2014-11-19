@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -52,6 +52,7 @@ public class MapActivity extends FragmentActivity {
         
         Button backButton = (Button) findViewById(R.id.button1);
         Button nextButton = (Button) findViewById(R.id.button2);
+        final TextView navigate = (TextView) findViewById(R.id.location_txt);
         
        
         map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
@@ -83,6 +84,7 @@ public class MapActivity extends FragmentActivity {
         			encoded.add(rs.getPolyline());
         		}
         	}
+        	navigate.setText("From " + optimalAddresses.get(0).getName() + " to " + optimalAddresses.get(1).getName());
 			api.drawMap(optimalAddresses, encoded, map);
 			api.moveMap(dir.getSouthwest(), dir.getNortheast(), map);
         } catch (Exception e) {
@@ -107,6 +109,7 @@ public class MapActivity extends FragmentActivity {
 				{
 					tripSegment--;
 					dFrag.updateView(directions[tripSegment]);
+					navigate.setText("From " + optimalAddresses.get(tripSegment).getName() + " to " + optimalAddresses.get(tripSegment + 1).getName());
 				}
 				
 			}
@@ -120,6 +123,7 @@ public class MapActivity extends FragmentActivity {
 				{
 					tripSegment++;
 					dFrag.updateView(directions[tripSegment]);
+					navigate.setText("From " + optimalAddresses.get(tripSegment).getName() + " to " + optimalAddresses.get(tripSegment + 1).getName());
 				}
 				
 			}

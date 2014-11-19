@@ -90,7 +90,6 @@ public class InputActivity extends ListActivity implements OnScrollListener {
 
     submitButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
-        Toast.makeText(InputActivity.this, "Proceeding to MapActivity.", Toast.LENGTH_SHORT).show();
         Intent nextAct = new Intent(InputActivity.this, MapActivity.class);
         nextAct.putStringArrayListExtra("input_list", list);
         startActivity(nextAct);
@@ -117,8 +116,6 @@ public class InputActivity extends ListActivity implements OnScrollListener {
 
     clearAllButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
-        String message = String.format("Clicked ClearAll");
-        Toast.makeText(InputActivity.this, message, Toast.LENGTH_SHORT).show();
         adapter.clear();
         list.clear();
         adapter.notifyDataSetChanged();
@@ -129,16 +126,13 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     ListView listView = getListView();
     listView.setOnItemClickListener(new OnItemClickListener() {
       public void onItemClick(AdapterView<?> adapterview, View view, int position, long rowId) {
-        String message = String.format("Clicked item %d", position);
-        Toast.makeText(InputActivity.this, message, Toast.LENGTH_SHORT).show();
+        
       }
     });
 
     listView.setOnItemLongClickListener(new OnItemLongClickListener() {
       public boolean onItemLongClick(AdapterView<?> adapterview, View view, int position, long rowId) {
-        String message = String.format("Long clicked item %d", position);
-        Toast.makeText(InputActivity.this, message, Toast.LENGTH_SHORT).show();
-        return true;
+         return true;
       }
     });
   }

@@ -60,14 +60,14 @@ public class MapActivity extends FragmentActivity {
 //        path = new RouteSection[optimalAddresses.size()];
 //        try {
 //        	path = api.getDirections(optimalAddresses);
-//        	directions = (ArrayList<SpannedString>[]) new ArrayList[path.length];
+//        	directions = (ArrayList<String>[]) new ArrayList[path.length];
 //        	encoded = new ArrayList<String>(path.length);
 //        	for(int i = 0; i<path.length; i++)
 //        	{
-//        		directions[i] = new ArrayList<SpannedString>();
+//        		directions[i] = new ArrayList<String>();
 //        		for(RouteStep rs : path[i].getSteps())
 //        		{
-//        			directions[i].add((SpannedString) Html.fromHtml(rs.getHtmlInstructions()));
+//        			directions[i].add(Html.fromHtml(rs.getHtmlInstructions()).toString());
 //        			encoded.add(rs.getPolyline());
 //        		}
 //        	}
@@ -95,8 +95,7 @@ public class MapActivity extends FragmentActivity {
 					tripSegment--;
 					dFrag.updateView(directions[tripSegment]);
 				}
-				// TODO Auto-generated method stub
-				System.out.println("Pressed back");
+				
 			}
 		});
         
@@ -109,8 +108,7 @@ public class MapActivity extends FragmentActivity {
 					tripSegment++;
 					dFrag.updateView(directions[tripSegment]);
 				}
-				// TODO Auto-generated method stub
-				System.out.println("Presed next");
+				
 			}
 		});
         

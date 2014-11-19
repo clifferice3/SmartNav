@@ -50,12 +50,14 @@ public class MapActivity extends FragmentActivity {
         map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
         map.setMyLocationEnabled(true);
         
-//        try {
-//			optimalAddresses = pathFinder.calculate(input);
-//			Toast.makeText(this, "Path calculation successful: " + optimalAddresses.get(0).getName(), Toast.LENGTH_SHORT).show();
-//		} catch (Exception e) {
-//			Toast.makeText(this, "Path calculation failed", Toast.LENGTH_SHORT).show();
-//		}
+        APIWrapper api = new APIWrapper();
+        
+        try {
+			optimalAddresses = pathFinder.calculate(input, api.getCurrentLoc());
+			Toast.makeText(this, "Path calculation successful: " + optimalAddresses.get(0).getName(), Toast.LENGTH_SHORT).show();
+		} catch (Exception e) {
+			Toast.makeText(this, "Path calculation failed", Toast.LENGTH_SHORT).show();
+		}
 //        APIWrapper api = new APIWrapper();
 //        path = new RouteSection[optimalAddresses.size()];
 //        try {

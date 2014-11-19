@@ -39,10 +39,17 @@ public class APIWrapper
 	private final int MAX_PATH_SIZE = 10;
 	Location cur = null;
 	
-    static GoogleMap map = new MapView(null).getMap();
-    static ArrayList<Marker> locs = new ArrayList<Marker>();
-    static Polyline lines = new Polyline(null);
+    static GoogleMap map;
+    static ArrayList<Marker> locs;
+    static Polyline lines;
 
+    public void initMap()
+    {
+    	map = new MapView(null).getMap();
+    	locs = new ArrayList<Marker>();
+    	lines = new Polyline(null);
+    }
+    
     /**
      * Function: drawMap
      * takes in a list of locations and an encrypted polyLine
@@ -114,6 +121,11 @@ public class APIWrapper
         lines.setVisible(true);
     }
 	
+    public void moveMap(Address southWest, Address northEast)
+    {
+    	
+    }
+    
     /**
      * Function: getCurrentLoc
      * returns an Address corresponding to the current location of the user
@@ -132,31 +144,41 @@ public class APIWrapper
 	 * The RouteSections contain steps which each have html instructions and a polyline
 	 * path must not contain more than 18 elements
 	 */
-	public RouteSection[] getDirections(ArrayList<Address> path) throws Exception
+//	public RouteSection[] getDirections(ArrayList<Address> path) throws Exception
+//	{
+//		RouteSection[] sections = new RouteSection[path.size() - 1];
+//		Address southwest = new Address("Southwest", 0, 0);
+//		Address northeast = new Address("Northeast", 0, 0);
+//		for(int i = 0; i < path.size(); i += MAX_PATH_SIZE - 1)
+//		{
+//			ArrayList<Address> currentQuery = new ArrayList<Address>();
+//			for(int j = 0; j < MAX_PATH_SIZE && i + j < path.size(); j++)
+//			{
+//				currentQuery.add(path.get(i + j));
+//			}
+//			
+//			Directions currentDirections = getDirections(currentQuery, currentQuery.size());
+//			
+//			for(int k = 0; k < currentDirections.getSections().length; k++)
+//			{
+//				sections[i + k] = currentDirections.getSections()[k];
+//			}
+//			
+//			
+//		}
+//		
+//		return sections;
+//	}
+	
+	/**
+	 * Returns information about the directions to go through all the places in the path.
+	 * There cannot be more than 9 places.
+	 */
+	private Directions getDirections(ArrayList<Address> path) throws Exception
 	{
 		RouteSection[] sections = new RouteSection[path.size() - 1];
-		for(int i = 0; i < path.size(); i += MAX_PATH_SIZE - 1)
-		{
-			ArrayList<Address> currentQuery = new ArrayList<Address>();
-			for(int j = 0; j < MAX_PATH_SIZE && i + j < path.size(); j++)
-			{
-				currentQuery.add(path.get(i + j));
-			}
-			
-			RouteSection[] currentSections = getDirections(currentQuery, currentQuery.size());
-			
-			for(int k = 0; k < currentSections.length; k++)
-			{
-				sections[i + k] = currentSections[k];
-			}
-		}
-		
-		return sections;
-	}
-	
-	private RouteSection[] getDirections(ArrayList<Address> path, int length) throws Exception
-	{
-		RouteSection[] sections = new RouteSection[length - 1];
+		Address southwest;
+		Address northeast;
 		
 		try
 		{
@@ -165,7 +187,7 @@ public class APIWrapper
 			urlString.append("origin=" + path.get(0).getLatitude() + "," + path.get(0).getLongitude());
 			urlString.append("&destination=" + path.get(path.size() - 1).getLatitude() + "," + path.get(path.size() - 1).getLongitude());
 
-			if(length > 2)
+			if(path.size() > 2)
 			{
 				urlString.append("&waypoints=");
 				
@@ -206,13 +228,19 @@ public class APIWrapper
 				
 				sections[i] = new RouteSection(path.get(i), path.get(i + 1), routeSteps);
 			}
+			
+			JSONObject bounds = json.getJSONObject("bounds");
+			JSONObject sw = bounds.getJSONObject("southwest");
+			JSONObject ne = bounds.getJSONObject("northeast");
+			southwest = new Address("Southwest", sw.getDouble("lat"), sw.getDouble("lng"));
+			northeast = new Address("Northeast", ne.getDouble("lat"), ne.getDouble("lng"));
 		}
 		catch(Exception e)
 		{
 			throw new Exception();
 		}
 		
-		return sections;
+		return new Directions(sections, southwest, northeast);
 	}
 	
 	public ArrayList<Address> queryPlace(String query, Address currentLoc, int radius, int numPlaces) throws Exception

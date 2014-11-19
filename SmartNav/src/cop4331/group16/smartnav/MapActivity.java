@@ -2,61 +2,80 @@ package cop4331.group16.smartnav;
 
 import java.util.ArrayList;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.SpannedString;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+
 public class MapActivity extends FragmentActivity {
 	DirectionFragment dFrag;
-	private ArrayList<String> input;
+	ArrayList<String> input;
+	ArrayList<Address> optimalAddresses;
 	int tripSegment;
 	ArrayList<String>[] directions;
+	ArrayList<String> encoded;
+	RouteSection[] path;
 	ListView lv;
 	ArrayAdapter<String> m_adapter;
 	ArrayList<String> m_listItems = new ArrayList<String>();
+	PathCalculator pathFinder;
+	APIWrapper api;
+	
 	GoogleMap map;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        
         input = getIntent().getStringArrayListExtra("input_list");
         
-//        map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
-//        map.setMyLocationEnabled(true);
+        PathCalculator pathFinder = new PathCalculator();
+        optimalAddresses = new ArrayList<Address>();
         
-//        PathCalculator pathFinder = new PathCalculator();
-//        ArrayList<Address> optimalAddresses = new ArrayList<Address>();
+        
+        
+        Button backButton = (Button) findViewById(R.id.button1);
+        Button nextButton = (Button) findViewById(R.id.button2);
+        
+       
+        map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+        map.setMyLocationEnabled(true);
+        
 //        try {
 //			optimalAddresses = pathFinder.calculate(input);
+//			Toast.makeText(this, "Path calculation successful: " + optimalAddresses.get(0).getName(), Toast.LENGTH_SHORT).show();
 //		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
+//			Toast.makeText(this, "Path calculation failed", Toast.LENGTH_SHORT).show();
 //		}
 //        APIWrapper api = new APIWrapper();
-//        RouteSection[] routes = new RouteSection[0];
+//        path = new RouteSection[optimalAddresses.size()];
 //        try {
-//        	routes = api.getDirections(optimalAddresses);
-//        	directions = new ArrayList[routes.length];
-//        	for(int i = 0; i<routes.length; i++)
+//        	path = api.getDirections(optimalAddresses);
+//        	directions = (ArrayList<SpannedString>[]) new ArrayList[path.length];
+//        	encoded = new ArrayList<String>(path.length);
+//        	for(int i = 0; i<path.length; i++)
 //        	{
-//        		directions[i] = new ArrayList<String>();
-//        		for(RouteStep rs : routes[i].getSteps())
+//        		directions[i] = new ArrayList<SpannedString>();
+//        		for(RouteStep rs : path[i].getSteps())
 //        		{
-//        			directions[i].add(rs.getHtmlInstructions());
+//        			directions[i].add((SpannedString) Html.fromHtml(rs.getHtmlInstructions()));
+//        			encoded.add(rs.getPolyline());
 //        		}
 //        	}
+//			api.drawMap(optimalAddresses, encoded);
 //        } catch (Exception e) {
 //        	e.printStackTrace();
 //        }
-	    directions = new ArrayList[2];
+	    directions = (ArrayList<String>[]) new ArrayList[2];
 	    directions[0] = new ArrayList<String>(); directions[1] = new ArrayList<String>();
 	    for(int i = 0; i<3; i++)
 	    {
@@ -66,7 +85,7 @@ public class MapActivity extends FragmentActivity {
         dFrag = (DirectionFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
         dFrag.updateView(directions[0]);
         tripSegment = 0;
-        Button backButton = (Button) findViewById(R.id.button1);
+        
         backButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -80,7 +99,7 @@ public class MapActivity extends FragmentActivity {
 				System.out.println("Pressed back");
 			}
 		});
-        Button nextButton = (Button) findViewById(R.id.button2);
+        
         nextButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

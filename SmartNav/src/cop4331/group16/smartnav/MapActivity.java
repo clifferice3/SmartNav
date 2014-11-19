@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,7 @@ public class MapActivity extends FragmentActivity {
 	int tripSegment;
 	ArrayList<String>[] directions;
 	ArrayList<String> encoded;
+	Directions dir;
 	RouteSection[] path;
 	ListView lv;
 	ArrayAdapter<String> m_adapter;
@@ -67,30 +69,32 @@ public class MapActivity extends FragmentActivity {
 		}
 //        APIWrapper api = new APIWrapper();
 //        path = new RouteSection[optimalAddresses.size()];
-//        try {
-//        	path = api.getDirections(optimalAddresses);
-//        	directions = (ArrayList<String>[]) new ArrayList[path.length];
-//        	encoded = new ArrayList<String>(path.length);
-//        	for(int i = 0; i<path.length; i++)
-//        	{
-//        		directions[i] = new ArrayList<String>();
-//        		for(RouteStep rs : path[i].getSteps())
-//        		{
-//        			directions[i].add(Html.fromHtml(rs.getHtmlInstructions()).toString());
-//        			encoded.add(rs.getPolyline());
-//        		}
-//        	}
-//			api.drawMap(optimalAddresses, encoded);
-//        } catch (Exception e) {
-//        	e.printStackTrace();
-//        }
-	    directions = (ArrayList<String>[]) new ArrayList[2];
-	    directions[0] = new ArrayList<String>(); directions[1] = new ArrayList<String>();
-	    for(int i = 0; i<3; i++)
-	    {
-	    	directions[0].add(""+(char)('A'+i));
-	      	directions[1].add(""+(char)('1'+i));
-	    }
+        try {
+        	dir = api.getDirections(optimalAddresses);
+        	path = dir.getSections();
+        	directions = (ArrayList<String>[]) new ArrayList[path.length];
+        	encoded = new ArrayList<String>(path.length);
+        	for(int i = 0; i<path.length; i++)
+        	{
+        		directions[i] = new ArrayList<String>();
+        		for(RouteStep rs : path[i].getSteps())
+        		{
+        			directions[i].add(Html.fromHtml(rs.getHtmlInstructions()).toString());
+        			encoded.add(rs.getPolyline());
+        		}
+        	}
+//			api.drawMap(optimalAddresses, encoded, map);
+			api.moveMap(dir.getSouthwest(), dir.getNortheast(), map);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+//	    directions = (ArrayList<String>[]) new ArrayList[2];
+//	    directions[0] = new ArrayList<String>(); directions[1] = new ArrayList<String>();
+//	    for(int i = 0; i<3; i++)
+//	    {
+//	    	directions[0].add(""+(char)('A'+i));
+//	      	directions[1].add(""+(char)('1'+i));
+//	    }
         dFrag = (DirectionFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
         dFrag.updateView(directions[0]);
         tripSegment = 0;

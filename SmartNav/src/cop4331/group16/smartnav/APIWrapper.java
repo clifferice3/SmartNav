@@ -180,7 +180,7 @@ public class APIWrapper
 	 * Returns information about the directions to go through all the places in the path.
 	 * There must not be more than 9 places in path.
 	 */
-	private Directions getDirections(ArrayList<Address> path) throws Exception
+	public Directions getDirections(ArrayList<Address> path) throws Exception
 	{
 		RouteSection[] sections = new RouteSection[path.size() - 1];
 		Address southwest;
@@ -219,7 +219,8 @@ public class APIWrapper
 				throw new Exception("1");
 			}
 			
-			JSONArray legs = json.getJSONArray("routes").getJSONObject(0).getJSONArray("legs");
+			JSONObject route = json.getJSONArray("routes").getJSONObject(0);
+			JSONArray legs = route.getJSONArray("legs");
 			for(int i = 0; i < legs.length(); i++)
 			{
 				JSONObject leg = legs.getJSONObject(i);
@@ -235,7 +236,7 @@ public class APIWrapper
 				sections[i] = new RouteSection(path.get(i), path.get(i + 1), routeSteps);
 			}
 			
-			JSONObject bounds = json.getJSONObject("bounds");
+			JSONObject bounds = route.getJSONObject("bounds");
 			JSONObject sw = bounds.getJSONObject("southwest");
 			JSONObject ne = bounds.getJSONObject("northeast");
 			southwest = new Address("Southwest", sw.getDouble("lat"), sw.getDouble("lng"));

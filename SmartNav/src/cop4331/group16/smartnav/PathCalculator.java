@@ -23,7 +23,15 @@ public class PathCalculator
 	{
 		locations = new ArrayList[queryList.size() + 1];
 		
-		Address currentLocation = api.getCurrentLoc();
+		Address currentLocation;
+		try
+		{
+			currentLocation = api.getCurrentLoc();
+		}
+		catch(Exception e)
+		{
+			throw new Exception("Exception in getCurrentLoc");
+		}
 		
 		locations[0] = new ArrayList<Address>();
 		locations[0].add(currentLocation);

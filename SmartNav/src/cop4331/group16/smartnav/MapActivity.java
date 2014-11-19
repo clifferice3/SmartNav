@@ -83,7 +83,7 @@ public class MapActivity extends FragmentActivity {
         			encoded.add(rs.getPolyline());
         		}
         	}
-//			api.drawMap(optimalAddresses, encoded, map);
+			api.drawMap(optimalAddresses, encoded, map);
 			api.moveMap(dir.getSouthwest(), dir.getNortheast(), map);
         } catch (Exception e) {
         	e.printStackTrace();

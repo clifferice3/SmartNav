@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,7 +77,7 @@ public class APIWrapper
             locs.add(tempMarker);
         }
 
-	    PolylineOptions lineOptions = new PolylineOptions();
+	    PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
 
         for (String s: mapLinesEnc) {
         	

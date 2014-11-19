@@ -77,7 +77,7 @@ public class APIWrapper
             locs.add(tempMarker);
         }
 
-	    PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.RED);
+	    PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.MAGENTA);
 
         for (String s: mapLinesEnc) {
         	

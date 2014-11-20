@@ -23,6 +23,7 @@ public class MapActivity extends FragmentActivity {
 	int tripSegment;
 	ArrayList<String>[] directions;
 	ArrayList<String>[] encoded;
+	ArrayList<String> encodedStraight;
 	Directions dir;
 	RouteSection[] path;
 	ListView lv;
@@ -55,7 +56,8 @@ public class MapActivity extends FragmentActivity {
         Button nextButton = (Button) findViewById(R.id.button2);
         final TextView navigate = (TextView) findViewById(R.id.location_txt);
         
-       
+    	encodedStraight = new ArrayList<String>();
+        
         map = ((MapFragment)this.getFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
         map.setMyLocationEnabled(true);
         
@@ -66,23 +68,36 @@ public class MapActivity extends FragmentActivity {
 		} catch (Exception e) {
 			;
 		}
+        
 //        APIWrapper api = new APIWrapper();
 //        path = new RouteSection[optimalAddresses.size()];
         try {
         	dir = api.getDirections(optimalAddresses);
         	path = dir.getSections();
-        	directions = (ArrayList<String>[]) new ArrayList[path.length];
+        	
+        	directions = (ArrayList<String>[]) new ArrayList[path.length+1];
         	encoded = (ArrayList<String>[]) new ArrayList[path.length];
+        	
         	for(int i = 0; i<path.length; i++)
         	{
-        		directions[i] = new ArrayList<String>();
+        		directions[i+1] = new ArrayList<String>();
         		encoded[i] = new ArrayList<String>();
         		for(RouteStep rs : path[i].getSteps())
         		{
-        			directions[i].add(Html.fromHtml(rs.getHtmlInstructions()).toString());
+        			directions[i+1].add(Html.fromHtml(rs.getHtmlInstructions()).toString());
         			encoded[i].add(rs.getPolyline());
+        			encodedStraight.add(rs.getPolyline());
         		}
         	}
+        } catch (Exception e){
+       		;
+       	}
+        
+        directions[0] = new ArrayList<String>();
+    	for (int i = 0; i<optimalAddresses.size(); i++){
+    		directions[0].add((i+1) + ". " +optimalAddresses.get(i).getName());
+    	}
+        	
         	
         	map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
         	    @Override
@@ -95,18 +110,10 @@ public class MapActivity extends FragmentActivity {
         	    }
         	});
         	
-        	navigate.setText("Step 1: " + optimalAddresses.get(0).getName() + " to " + optimalAddresses.get(1).getName());
+        	navigate.setText("Optimal Locations");
 			
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
-//	    directions = (ArrayList<String>[]) new ArrayList[2];
-//	    directions[0] = new ArrayList<String>(); directions[1] = new ArrayList<String>();
-//	    for(int i = 0; i<3; i++)
-//	    {
-//	    	directions[0].add(""+(char)('A'+i));
-//	      	directions[1].add(""+(char)('1'+i));
-//	    }
+        
+
         dFrag = (DirectionFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
         dFrag.updateView(directions[0]);
         tripSegment = 0;
@@ -115,15 +122,20 @@ public class MapActivity extends FragmentActivity {
 			
 			@Override
 			public void onClick(View v) {
-				if(tripSegment > 0)
+				if(tripSegment > 1)
 				{
 					tripSegment--;
 					dFrag.updateView(directions[tripSegment]);
 					ArrayList<Address> temp = new ArrayList<Address>();
+        	    	temp.add(optimalAddresses.get(tripSegment-1));
         	    	temp.add(optimalAddresses.get(tripSegment));
-        	    	temp.add(optimalAddresses.get(tripSegment + 1));
-        	    	api.drawMap(temp, encoded[tripSegment], map);
-					navigate.setText("Step " + (tripSegment+1) + ": " + optimalAddresses.get(tripSegment).getName() + " to " + optimalAddresses.get(tripSegment + 1).getName());
+        	    	api.drawMap(temp, encoded[tripSegment-1], map);
+					navigate.setText("Step " + (tripSegment) + ": " + optimalAddresses.get(tripSegment-1).getName() + " to " + optimalAddresses.get(tripSegment).getName());
+				} else if (tripSegment == 1){
+					tripSegment--;
+					dFrag.updateView(directions[tripSegment]);
+					api.drawMap(optimalAddresses, encodedStraight, map);
+					navigate.setText("Optimal Locations");
 				}
 				
 			}
@@ -138,12 +150,11 @@ public class MapActivity extends FragmentActivity {
 					tripSegment++;
 					dFrag.updateView(directions[tripSegment]);
 					ArrayList<Address> temp = new ArrayList<Address>();
+        	    	temp.add(optimalAddresses.get(tripSegment-1));
         	    	temp.add(optimalAddresses.get(tripSegment));
-        	    	temp.add(optimalAddresses.get(tripSegment + 1));
-        	    	api.drawMap(temp, encoded[tripSegment], map);
-					navigate.setText("Step " + (tripSegment+1) + ": " + optimalAddresses.get(tripSegment).getName() + " to " + optimalAddresses.get(tripSegment + 1).getName());
-				}
-				
+        	    	api.drawMap(temp, encoded[tripSegment-1], map);
+					navigate.setText("Step " + (tripSegment) + ": " + optimalAddresses.get(tripSegment-1).getName() + " to " + optimalAddresses.get(tripSegment).getName());
+				}				
 			}
 		});
         

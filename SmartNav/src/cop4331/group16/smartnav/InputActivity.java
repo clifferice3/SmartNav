@@ -1,16 +1,17 @@
 package cop4331.group16.smartnav;
 
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -20,15 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class InputActivity extends ListActivity implements OnScrollListener {
 
@@ -94,16 +90,35 @@ public class InputActivity extends ListActivity implements OnScrollListener {
         ArrayList<String> allToDoItems = new ArrayList<String>();
         for (int i = 0; i < adapter.getCount(); i++)
           allToDoItems.add(adapter.getItem(i));
+        
+        LocationManager locationManager = (LocationManager) InputActivity.this
+                .getSystemService(LOCATION_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) InputActivity.this.getSystemService(CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        
+        // Getting GPS status
+        boolean isGPSEnabled = locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // Getting network status
+        boolean isInternetConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        
+        if(!isGPSEnabled || !isInternetConnected){
+        	Toast.makeText(InputActivity.this, "Please check your GPS/Network settings", Toast.LENGTH_SHORT).show();
+        	return;
+        }
+        
         if(allToDoItems.size() > 9)
         {
         	Toast.makeText(InputActivity.this, "Too many queries", Toast.LENGTH_SHORT).show();
+        	return;
         }
-        else
-        {
-        	Intent nextAct = new Intent(InputActivity.this, MapActivity.class);
-        	nextAct.putStringArrayListExtra("input_list", allToDoItems);
-            startActivity(nextAct);
-        }
+        
+       	Intent nextAct = new Intent(InputActivity.this, MapActivity.class);
+       	nextAct.putStringArrayListExtra("input_list", allToDoItems);
+        startActivity(nextAct);
+        
       }
     });
 

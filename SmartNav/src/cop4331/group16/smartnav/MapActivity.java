@@ -66,7 +66,9 @@ public class MapActivity extends FragmentActivity {
         try {
 			optimalAddresses = pathFinder.calculate(input, start);
 		} catch (Exception e) {
-			;
+			navigate.setText("Error calculating path. " + e.getMessage());
+//			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+			return;
 		}
         
 //        APIWrapper api = new APIWrapper();
@@ -90,7 +92,9 @@ public class MapActivity extends FragmentActivity {
         		}
         	}
         } catch (Exception e){
-       		;
+        	navigate.setText("Error calculating path. " + e.getMessage());
+//			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+			return;
        	}
         
         directions[0] = new ArrayList<String>();
@@ -102,11 +106,8 @@ public class MapActivity extends FragmentActivity {
         	map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
         	    @Override
         	    public void onMapLoaded() {
-        	    	ArrayList<Address> temp = new ArrayList<Address>();
-        	    	temp.add(optimalAddresses.get(0));
-        	    	temp.add(optimalAddresses.get(1));
         	    	api.moveMap(dir.getSouthwest(), dir.getNortheast(), map);
-        	    	api.drawMap(temp, encoded[0], map);
+        	    	api.drawMap(optimalAddresses, encodedStraight, map);
         	    }
         	});
         	

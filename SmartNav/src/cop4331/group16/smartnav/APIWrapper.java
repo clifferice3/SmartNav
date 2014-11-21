@@ -218,9 +218,17 @@ public class APIWrapper
 			
 			JSONObject json = new JSONObject(response);
 			
-			if(!json.getString("status").equals("OK"))
+			if(json.getString("status").equals("ZERO_RESULTS"))
 			{
-				throw new Exception("1");
+				throw new Exception("No path found.");
+			}
+			else if(json.getString("status").equals("MAX_WAYPOINTS_EXCEEDED") || json.getString("status").equals("OVER_QUERY_LIMIT"))
+			{
+				throw new Exception("Over query limit.");
+			}
+			else if(!json.getString("status").equals("OK"))
+			{
+				throw new Exception();
 			}
 			
 			JSONObject route = json.getJSONArray("routes").getJSONObject(0);
@@ -248,7 +256,7 @@ public class APIWrapper
 		}
 		catch(Exception e)
 		{
-			throw new Exception("2");
+			throw e;
 		}
 		
 		return new Directions(sections, southwest, northeast);
@@ -271,9 +279,17 @@ public class APIWrapper
 			
 			JSONObject json = new JSONObject(response);
 			
-			if(!json.getString("status").equals("OK"))
+			if(json.getString("status").equals("ZERO_RESULTS"))
 			{
-				throw new Exception("3");
+				throw new Exception("No results found for location " + query + ".");
+			}
+			else if(json.getString("status").equals("OVER_QUERY_LIMIT"))
+			{
+				throw new Exception("Over query limit.");
+			}
+			else if(!json.getString("status").equals("OK"))
+			{
+				throw new Exception();
 			}
 			
 			JSONArray results = json.getJSONArray("results");
@@ -286,7 +302,7 @@ public class APIWrapper
 		}
 		catch(Exception e)
 		{
-			throw new Exception("4: " + e.getMessage());
+			throw e;
 		}
 		
 		return places;
@@ -330,17 +346,13 @@ public class APIWrapper
 			
 			JSONObject json = new JSONObject(response);
 			
-			if(!json.getString("status").equals("OK"))
+			if(json.getString("status").equals("MAX_ELEMENTS_EXCEEDED") || json.getString("status").equals("OVER_QUERY_LIMIT"))
 			{
-				if(json.getString("status").equals("OVER_QUERY_LIMIT"))
-				{
-					Thread.sleep(2000);
-					return getTime(start, end);
-				}
-				else
-				{
-					throw new Exception("5");
-				}
+				throw new Exception("Over query limit.");
+			}
+			else if(!json.getString("status").equals("OK"))
+			{
+				throw new Exception();
 			}
 			
 			JSONArray rows = json.getJSONArray("rows");
@@ -350,7 +362,12 @@ public class APIWrapper
 				for(int j = 0; j < elements.length(); j++)
 				{
 					JSONObject element = elements.getJSONObject(j);
-					if(!element.getString("status").equals("OK"))
+					if(element.getString("status").equals("ZERO_RESULTS"))
+					{
+						matrix[i][j] = Long.MAX_VALUE;
+						continue;
+					}
+					else if(!element.getString("status").equals("OK"))
 					{
 						throw new Exception();
 					}
@@ -361,7 +378,7 @@ public class APIWrapper
 		}
 		catch(Exception e)
 		{
-			throw new Exception("6");
+			throw e;
 		}
 		
 		return matrix;

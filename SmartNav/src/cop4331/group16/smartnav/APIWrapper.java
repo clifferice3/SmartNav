@@ -33,8 +33,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+/**
+ * This class performs operations on Google Map objects and performs queries to various Google APIs.
+ */
 public class APIWrapper
 {
+	// Parameters to Google APIs
 	private final String KEY = "AIzaSyBUi5Vjva_f7AHw6_pOlZ9QS8Z97cQrPZo";
 	private final String API = "https://maps.googleapis.com/maps/api";
 	private final String DIRECTIONS = "/directions";
@@ -42,11 +46,12 @@ public class APIWrapper
 	private final String DISTANCE_MATRIX = "/distancematrix";
 	private final String TEXT_SEARCH = "/textsearch";
 	private final String JSON = "/json";
-	//private final int MAX_PATH_SIZE = 10;
-	private final int PADDING = 50;
 	
-	Location cur = null;
+	private final int PADDING = 50;				// Amount of padding used in Google Map
 	
+	private final long INFINITY = (long)1E16;	// Infinity value for places that have no path between them
+	
+	// Objects used on the Google Map
     static ArrayList<Marker> locs = new ArrayList<Marker>();
     static Polyline lines;
     
@@ -84,7 +89,8 @@ public class APIWrapper
         
 	    PolylineOptions lineOptions = new PolylineOptions().width(5).color(Color.BLUE);
 
-        for (String s: mapLinesEnc) {
+        for (String s: mapLinesEnc)
+        {
         	
         	 // decrypt the poLyline
 	        int index = 0, len = s.length();
@@ -93,7 +99,8 @@ public class APIWrapper
 	        while (index < len)
 	        {
 	            int b, shift = 0, result = 0;
-	            do {
+	            do
+	            {
 	                b = s.charAt(index++) - 63;
 	                result |= (b & 0x1f) << shift;
 	                shift += 5;
@@ -105,7 +112,8 @@ public class APIWrapper
 	            shift = 0;
 	            result = 0;
 	
-	            do {
+	            do
+	            {
 	                b = s.charAt(index++) - 63;
 	                result |= (b & 0x1f) << shift;
 	                shift += 5;
@@ -124,6 +132,9 @@ public class APIWrapper
         lines.setVisible(true);
     }
 	
+    /**
+     * Positions map to show the box indicated by its southwest and northeast corners.
+     */
     public void moveMap(Address southwest, Address northeast, GoogleMap map)
     {
     	LatLng sw = new LatLng(southwest.getLatitude(), southwest.getLongitude());
@@ -131,57 +142,15 @@ public class APIWrapper
     	
     	LatLngBounds bounds = new LatLngBounds(sw, ne);
     	
+    	// Get the camera movement
     	CameraUpdate update = CameraUpdateFactory.newLatLngBounds(bounds, PADDING);
     	
+    	// Update map
     	map.moveCamera(update);
     }
-    
-    /**
-     * Function: getCurrentLoc
-     * returns an Address corresponding to the current location of the user
-     * @throws InterruptedException 
-     */
-	public Address getCurrentLoc() throws InterruptedException
-	{
-	        LocActivity tmp = new LocActivity();
-	        tmp.startActivity(null);
-	        while (cur == null) Thread.sleep(1000);
-	        return new Address("Current Location", cur.getLatitude(), cur.getLongitude());
-	}
 	
 	/**
-	 * Returns an array of RouteSections to go through all the places in path
-	 * The RouteSections contain steps which each have html instructions and a polyline
-	 * path must not contain more than 18 elements
-	 */
-//	public RouteSection[] getDirections(ArrayList<Address> path) throws Exception
-//	{
-//		RouteSection[] sections = new RouteSection[path.size() - 1];
-//		Address southwest = new Address("Southwest", 0, 0);
-//		Address northeast = new Address("Northeast", 0, 0);
-//		for(int i = 0; i < path.size(); i += MAX_PATH_SIZE - 1)
-//		{
-//			ArrayList<Address> currentQuery = new ArrayList<Address>();
-//			for(int j = 0; j < MAX_PATH_SIZE && i + j < path.size(); j++)
-//			{
-//				currentQuery.add(path.get(i + j));
-//			}
-//			
-//			Directions currentDirections = getDirections(currentQuery, currentQuery.size());
-//			
-//			for(int k = 0; k < currentDirections.getSections().length; k++)
-//			{
-//				sections[i + k] = currentDirections.getSections()[k];
-//			}
-//			
-//			
-//		}
-//		
-//		return sections;
-//	}
-	
-	/**
-	 * Returns information about the directions to go through all the places in the path.
+	 * Returns information about the directions to go through all the places in the path using Google Directions API.
 	 * There must not be more than 9 places in path.
 	 */
 	public Directions getDirections(ArrayList<Address> path) throws Exception
@@ -192,6 +161,7 @@ public class APIWrapper
 		
 		try
 		{
+			// Create url
 			StringBuilder urlString = new StringBuilder(API + DIRECTIONS);
 			urlString.append(JSON + "?");
 			urlString.append("origin=" + path.get(0).getLatitude() + "," + path.get(0).getLongitude());
@@ -214,10 +184,12 @@ public class APIWrapper
 			
 			urlString.append("&key=" + KEY);
 			
+			// Call Google Directions web service
 			String response = queryWebService(urlString.toString());
 			
 			JSONObject json = new JSONObject(response);
 			
+			// Error checking
 			if(json.getString("status").equals("ZERO_RESULTS"))
 			{
 				throw new Exception("No path found.");
@@ -231,6 +203,7 @@ public class APIWrapper
 				throw new Exception();
 			}
 			
+			// Parse JSON response for needed information about the directions
 			JSONObject route = json.getJSONArray("routes").getJSONObject(0);
 			JSONArray legs = route.getJSONArray("legs");
 			for(int i = 0; i < legs.length(); i++)
@@ -262,12 +235,17 @@ public class APIWrapper
 		return new Directions(sections, southwest, northeast);
 	}
 	
+	/**
+	 * Uses Google Places API to find the closest numPlaces places, preferably within radius of the current location,
+	 * that match the query.
+	 */
 	public ArrayList<Address> queryPlace(String query, Address currentLoc, int radius, int numPlaces) throws Exception
 	{
 		ArrayList<Address> places = new ArrayList<Address>();
 		
 		try
 		{
+			// Create url
 			StringBuilder urlString = new StringBuilder(API + PLACES + TEXT_SEARCH);
 			urlString.append(JSON + "?");
 			urlString.append("query=" + URLEncoder.encode(query, "UTF-8"));
@@ -275,10 +253,12 @@ public class APIWrapper
 			urlString.append("&location=" + currentLoc.getLatitude() + "," + currentLoc.getLongitude());
 			urlString.append("&radius=" + radius);
 			
+			// Call Google Places web service
 			String response = queryWebService(urlString.toString());
 			
 			JSONObject json = new JSONObject(response);
 			
+			// Error checking
 			if(json.getString("status").equals("ZERO_RESULTS"))
 			{
 				throw new Exception("No results found for location " + query + ".");
@@ -292,6 +272,7 @@ public class APIWrapper
 				throw new Exception();
 			}
 			
+			// Parse JSON response for places
 			JSONArray results = json.getJSONArray("results");
 			for(int i = 0; i < Math.min(numPlaces, results.length()); i++)
 			{
@@ -308,12 +289,16 @@ public class APIWrapper
 		return places;
 	}
 	
+	/**
+	 * Uses Google Distance Matrix API to calculate the distance between every pair of starting address and ending address.
+	 */
 	public long[][] getTime(ArrayList<Address> start, ArrayList<Address> end) throws Exception
 	{
 		long[][] matrix = new long[start.size()][end.size()];
 		
 		try
 		{
+			// Create url
 			StringBuilder urlString = new StringBuilder(API + DISTANCE_MATRIX);
 			urlString.append(JSON + "?");
 			urlString.append("origins=");
@@ -342,10 +327,12 @@ public class APIWrapper
 			
 			urlString.append("&key=" + KEY);
 			
+			// Call Google Distance Matrix web service
 			String response = queryWebService(urlString.toString());
 			
 			JSONObject json = new JSONObject(response);
 			
+			// Error checking
 			if(json.getString("status").equals("MAX_ELEMENTS_EXCEEDED") || json.getString("status").equals("OVER_QUERY_LIMIT"))
 			{
 				throw new Exception("Over query limit.");
@@ -355,6 +342,7 @@ public class APIWrapper
 				throw new Exception();
 			}
 			
+			// Parse JSON response for distances
 			JSONArray rows = json.getJSONArray("rows");
 			for(int i = 0; i < rows.length(); i++)
 			{
@@ -362,9 +350,11 @@ public class APIWrapper
 				for(int j = 0; j < elements.length(); j++)
 				{
 					JSONObject element = elements.getJSONObject(j);
+					
+					// Additional error checking
 					if(element.getString("status").equals("ZERO_RESULTS"))
 					{
-						matrix[i][j] = Long.MAX_VALUE;
+						matrix[i][j] = INFINITY;
 						continue;
 					}
 					else if(!element.getString("status").equals("OK"))
@@ -384,12 +374,17 @@ public class APIWrapper
 		return matrix;
 	}
 	
+	/**
+	 * Creates an asynchronous thread to query the web service as specified by urlString
+	 */
 	private String queryWebService(String urlString) throws Exception
 	{
 		WebServiceTask task = new WebServiceTask();
 		
+		// Call web service and wait for response
 		String response = task.execute(urlString).get();
 		
+		// Error checking
 		if(task.e != null)
 		{
 			throw task.e;
@@ -398,6 +393,9 @@ public class APIWrapper
 		return response;
 	}
 	
+	/**
+	 * An asynchronous task to call a web service as specified by a string and return the JSON response
+	 */
 	private class WebServiceTask extends AsyncTask<String, Void, String>
 	{
 		private Exception e;
@@ -408,11 +406,14 @@ public class APIWrapper
 			
 			try
 			{
+				// Get http connection
 				URL url = new URL(urlString[0]);
 				HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 				
+				// Get input stream
 				BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				
+				// Pull response out of stream
 				StringBuilder response = new StringBuilder();
 				String line = br.readLine();
 				while(line != null)
@@ -433,56 +434,4 @@ public class APIWrapper
 			return ret;
 		}
 	}
-	
-	 /**
-     * Class: LocActivity
-     * tries to get the current location until successful
-     * sets cur to the currentLocation on success
-     */
-    class LocActivity extends Activity implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
-        // . . . . . . . . more stuff here 
-        LocationRequest locationRequest;
-        LocationClient locationClient;
-
-     
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            // . . . . other initialization code
-            locationClient = new LocationClient(this, this, this);
-    locationRequest = new LocationRequest();
-    // Use high accuracy
-    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            // Set the update interval to 5 seconds
-    locationRequest.setInterval(5);
-            // Set the fastest update interval to 1 second
-    locationRequest.setFastestInterval(1);
-        }
-        // . . . . . . . . other methods 
-        @Override
-        public void onConnected(Bundle bundle) {
-            Location location = locationClient.getLastLocation();
-            if (location == null)
-                locationClient.requestLocationUpdates(locationRequest, this);
-            else
-            cur = location;       
-        }
-        // . . . . . . . . other methods
-        @Override
-        public void onLocationChanged(Location location) {
-            locationClient.removeLocationUpdates(this);
-            // Use the location here!!!
-        }
-@Override
-public void onConnectionFailed(ConnectionResult arg0) {
-// TODO Auto-generated method stub
-
-
-}
-@Override
-public void onDisconnected() {
-// TODO Auto-generated method stub
-
-
-}   
-    }
 }

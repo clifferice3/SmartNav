@@ -27,6 +27,8 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
 public class InputActivity extends ListActivity implements OnScrollListener {
+	
+  private final int MAX_QUERY_LENGTH = 1000;
 
   private ArrayList<String> list;
   private ArrayAdapter<String> adapter;
@@ -179,7 +181,13 @@ public class InputActivity extends ListActivity implements OnScrollListener {
 }
 
   private void addItem(String newItem) {
-    if (newItem.length() > 0) {
+    if(newItem.length() > MAX_QUERY_LENGTH)
+    {
+    	Toast.makeText(InputActivity.this, "Query too long", Toast.LENGTH_SHORT).show();
+    	return;
+    }
+    
+	if (newItem.length() > 0) {
       adapter.add(newItem);
       list.add(newItem);
       updateVisibility();

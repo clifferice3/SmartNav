@@ -9,10 +9,10 @@ import java.util.*;
  */
 public class PathCalculator
 {
-	private final int RADIUS = 500;			// Preferred radius for places that match the queries
-	private final int NUM_PLACES = 10;		// Number of places gathered for each query
+	private final int RADIUS = 500;				// Preferred radius for places that match the queries
+	private final int NUM_PLACES = 10;			// Number of places gathered for each query
 	
-	private ArrayList<Address>[] locations;
+	private ArrayList<Address>[] locations;		// List of nearby addresses for each query
 	
 	/**
 	 * This is the method that other classes should call.

@@ -14,9 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +37,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
   private Button submitButton;
   private Button clearAllButton;
 
+  // Settings for the dragable, sortable, removable list of queries
   private int removeMode = DragSortController.CLICK_REMOVE;
   private int dragStartMode = DragSortController.ON_DOWN;
   private boolean removeEnabled = true;
@@ -54,6 +52,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     getActionBar().setTitle("SmartNav - Optimal To-Do Navigator");
     getActionBar().show();
     
+    // Configure our listview
     dragSortListView = (DragSortListView) getListView();
     dragSortListViewController = buildController(dragSortListView);
     dragSortListView.setFloatViewManager(dragSortListViewController);
@@ -63,20 +62,22 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     dragSortListView.setRemoveListener(onRemove);
 
     setListAdapter();
-
     getListView().setOnScrollListener(this);
     
+    // Get references to UI elements
     list = new ArrayList<String>();
     editButton = (Button) findViewById(R.id.editButton);
     addItemButton = (Button) findViewById(R.id.addButton);
     submitButton = (Button) findViewById(R.id.submitButton);
     clearAllButton = (Button) findViewById(R.id.clearAllButton);
 
+    // Set up button handlers
     editButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
         if (adapter.getCount() == 0)
           return;
         
+        // Toggle edit mode
         editModeEnabled = !editModeEnabled;
         if (editModeEnabled) {
           editButton.setText(R.string.editButtonDone);
@@ -87,6 +88,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
       }
     });
 
+    // Submit queries to MapActivity
     submitButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
         ArrayList<String> allToDoItems = new ArrayList<String>();
@@ -124,6 +126,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
       }
     });
 
+    // Add new query item to the list
     addItemButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
         final EditText addItemEditText = new EditText(InputActivity.this);
@@ -142,25 +145,13 @@ public class InputActivity extends ListActivity implements OnScrollListener {
       }
     });
 
+    // Delete all query items
     clearAllButton.setOnClickListener(new OnClickListener() {
       public void onClick(View view) {
         adapter.clear();
         list.clear();
         adapter.notifyDataSetChanged();
 
-      }
-    });
-
-    ListView listView = getListView();
-    listView.setOnItemClickListener(new OnItemClickListener() {
-      public void onItemClick(AdapterView<?> adapterview, View view, int position, long rowId) {
-        
-      }
-    });
-
-    listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-      public boolean onItemLongClick(AdapterView<?> adapterview, View view, int position, long rowId) {
-         return true;
       }
     });
   }
@@ -180,6 +171,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     findViewById(R.id.submitButton).setVisibility(editModeEnabled ? View.GONE : View.VISIBLE);
 }
 
+  // Add new query
   private void addItem(String newItem) {
     if(newItem.length() > MAX_QUERY_LENGTH)
     {
@@ -195,6 +187,7 @@ public class InputActivity extends ListActivity implements OnScrollListener {
     }
   }
 
+  // Configure our controller for the DragSortListView
   public DragSortController buildController(DragSortListView dragsortlistview) {
     DragSortController dragsortcontroller = new DragSortController(dragsortlistview);
     dragsortcontroller.setDragHandleId(R.id.drag_handle);

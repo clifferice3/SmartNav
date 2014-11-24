@@ -7,6 +7,9 @@ public class APIWrapperTest extends TestCase
 {
 	APIWrapper test = new APIWrapper();
 	
+	/**
+	 * Unit test for path calculation
+	 */
 	void testCalculation()
 	{
 		PathCalculator pathCalculator = new PathCalculator();

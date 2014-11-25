@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.MapFragment;
 
+/**
+ * This class represents the map used by MapActivity.
+ */
 public class Map extends MapFragment 
 {
-
-
 	@Override
     public void onAttach(Activity activity) 
 	{

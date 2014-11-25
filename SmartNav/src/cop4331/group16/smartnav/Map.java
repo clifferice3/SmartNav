@@ -8,26 +8,31 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.MapFragment;
 
-public class Map extends MapFragment {
+public class Map extends MapFragment 
+{
 
 
 	@Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity) 
+	{
         super.onAttach(activity);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) 
+    {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) 
+    {
         return super.onCreateView(inf, parent, savedInstanceState);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) 
+    {
         super.onActivityCreated(savedInstanceState);
     }
 }

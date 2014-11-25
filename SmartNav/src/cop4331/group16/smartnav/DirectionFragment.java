@@ -12,24 +12,28 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class DirectionFragment extends Fragment {
+public class DirectionFragment extends Fragment 
+{
 	
 	private FragmentActivity listener;
 
 	@Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity) 
+	{
         super.onAttach(activity);
         this.listener = (FragmentActivity) activity;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) 
+    {
         super.onCreate(savedInstanceState);
     }
     ArrayAdapter<String> adapter;
     ListView listView;
     @Override
-    public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState)
+    {
     	ArrayList<String> list = new ArrayList<String>();
     	adapter = new ArrayAdapter<String>(getActivity().getBaseContext(), R.layout.list_item_click_remove, R.id.text, list);
         adapter.notifyDataSetChanged();
@@ -48,7 +52,8 @@ public class DirectionFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) 
+    {
         super.onActivityCreated(savedInstanceState);
     }
 	
